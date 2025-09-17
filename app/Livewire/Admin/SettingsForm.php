@@ -3,17 +3,14 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Setting;
+use App\Models\Message;
 use Livewire\Component;
-use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
 
 class SettingsForm extends Component
 {
-    #[Validate('required|string|regex:/^#[0-9A-Fa-f]{6}$/')]
-    public $bg_color = '#000000';
-    
-    #[Validate('required|string|regex:/^#[0-9A-Fa-f]{6}$/')]
-    public $font_color = '#ffffff';
+    public $display_mode;
+    public $recent_messages;
     
     // Tidak menggunakan properti publik untuk Model karena akan conflict dengan validasi
     private $setting;
@@ -21,8 +18,19 @@ class SettingsForm extends Component
     public function mount()
     {
         $this->setting = Setting::current();
-        $this->bg_color = $this->setting->bg_color;
-        $this->font_color = $this->setting->font_color;
+        $this->loadData();
+    }
+    
+    private function loadData()
+    {
+        // Load current display mode
+        $setting = $this->getSetting();
+        $this->display_mode = $setting->display_mode;
+        
+        // Load 5 recent messages
+        $this->recent_messages = Message::orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
     }
     
     private function getSetting()
@@ -31,53 +39,6 @@ class SettingsForm extends Component
             $this->setting = Setting::current();
         }
         return $this->setting;
-    }
-    
-    public function save()
-    {
-        $this->validate();
-        
-        $this->getSetting()->update([
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ]);
-        
-        // Broadcast events untuk real-time sync
-        $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ])->to('display-timer');
-        
-        $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ])->to('display-message');
-        
-        session()->flash('message', 'Pengaturan warna berhasil disimpan!');
-    }
-    
-    public function resetToDefault()
-    {
-        $this->bg_color = '#000000';
-        $this->font_color = '#ffffff';
-        
-        $this->getSetting()->update([
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ]);
-        
-        // Broadcast events untuk real-time sync
-        $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ])->to('display-timer');
-        
-        $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color
-        ])->to('display-message');
-        
-        session()->flash('message', 'Pengaturan warna berhasil direset ke default!');
     }
     
     #[On('switch-to-timer')]
@@ -99,6 +60,9 @@ class SettingsForm extends Component
             'display_mode' => $mode
         ]);
         
+        // Update local property
+        $this->display_mode = $mode;
+        
         // Broadcast events untuk real-time sync ke semua komponen
         $this->dispatch('display-mode-changed', ['mode' => $mode]);
         
@@ -106,23 +70,20 @@ class SettingsForm extends Component
         $this->js('window.dispatchEvent(new CustomEvent("display-mode-changed", { detail: { mode: "' . $mode . '" } }))');
         
         $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color,
             'display_mode' => $mode
         ])->to('display-timer');
         
         $this->dispatch('settings-updated', [
-            'bg_color' => $this->bg_color,
-            'font_color' => $this->font_color,
             'display_mode' => $mode
         ])->to('display-message');
         
         session()->flash('message', 'Mode display berhasil diubah ke ' . ucfirst($mode) . '!');
     }
     
-    public function getPreviewStyleProperty()
+    #[On('message-updated')]
+    public function refreshMessages()
     {
-        return "background-color: {$this->bg_color}; color: {$this->font_color};";
+        $this->loadData();
     }
     
     public function render()

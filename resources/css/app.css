@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Brand Colors */
+:root {
+  --brand-primary: #fe7211;
+  --brand-secondary: #ef5707;
+  --brand-light: #ffedd4;
+  --brand-white: #ffffff;
+  --brand-gray: #f9f9f9;
+}
+
+/* Font Manrope */
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* Brand Color Classes */
+.bg-brand-primary { background-color: var(--brand-primary); }
+.bg-brand-secondary { background-color: var(--brand-secondary); }
+.bg-brand-light { background-color: var(--brand-light); }
+.bg-brand-white { background-color: var(--brand-white); }
+.bg-brand-gray { background-color: var(--brand-gray); }
+
+.text-brand-primary { color: var(--brand-primary); }
+.text-brand-secondary { color: var(--brand-secondary); }
+.text-brand-light { color: var(--brand-light); }
+.text-brand-white { color: var(--brand-white); }
+.text-brand-gray { color: var(--brand-gray); }
+
+.border-brand-primary { border-color: var(--brand-primary); }
+.border-brand-secondary { border-color: var(--brand-secondary); }
+.border-brand-light { border-color: var(--brand-light); }
+.border-brand-white { border-color: var(--brand-white); }
+.border-brand-gray { border-color: var(--brand-gray); }
+
+/* Hover States */
+.hover\:bg-brand-primary:hover { background-color: var(--brand-primary); }
+.hover\:bg-brand-secondary:hover { background-color: var(--brand-secondary); }
+.hover\:text-brand-primary:hover { color: var(--brand-primary); }
+.hover\:text-brand-secondary:hover { color: var(--brand-secondary); }

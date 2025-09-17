@@ -13,6 +13,16 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                manrope: ['Manrope', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                brand: {
+                    primary: '#fe7211',
+                    secondary: '#ef5707',
+                    light: '#ffedd4',
+                    white: '#ffffff',
+                    gray: '#f9f9f9',
+                },
             },
         },
     },

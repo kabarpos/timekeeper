@@ -1,5 +1,5 @@
 <div 
-    class="min-h-screen flex items-center justify-center p-8"
+    class="min-h-screen flex items-center justify-center p-8 font-manrope"
     style="background-color: {{ $background_color }}; color: {{ $font_color }};"
     wire:poll.5s="refreshDisplay">
     
@@ -7,19 +7,19 @@
         <div class="text-center w-full max-w-6xl">
             <!-- Message Title -->
             @if($message->title)
-                <div class="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+                <div class="text-4xl md:text-6xl lg:text-7xl font-manrope font-bold mb-8 leading-tight">
                     {{ $message->title }}
                 </div>
             @endif
             
             <!-- Message Content -->
-            <div class="@if($message->type === 'short') text-3xl md:text-5xl lg:text-6xl @else text-2xl md:text-3xl lg:text-4xl @endif font-semibold leading-relaxed">
+            <div class="@if($message->type === 'short') text-3xl md:text-5xl lg:text-6xl @else text-2xl md:text-3xl lg:text-4xl @endif font-manrope font-semibold leading-relaxed">
                 {!! nl2br(e($message->content)) !!}
             </div>
             
             <!-- Message Type Indicator -->
             <div class="mt-8 opacity-60">
-                <div class="text-lg md:text-xl">
+                <div class="text-lg md:text-xl font-manrope">
                     {{ $message->type === 'short' ? 'Pesan Singkat' : 'Pesan Panjang' }}
                 </div>
             </div>
@@ -27,11 +27,11 @@
     @else
         <!-- No Active Message -->
         <div class="text-center w-full max-w-4xl">
-            <div class="text-4xl md:text-6xl font-bold mb-8 opacity-60">
+            <div class="text-4xl md:text-6xl font-manrope font-bold mb-8 opacity-60">
                 Tidak Ada Pesan Aktif
             </div>
             
-            <div class="text-xl md:text-2xl opacity-40">
+            <div class="text-xl md:text-2xl font-manrope opacity-40">
                 Silakan aktifkan pesan dari panel admin
             </div>
             

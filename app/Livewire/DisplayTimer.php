@@ -191,6 +191,8 @@ class DisplayTimer extends Component
         $this->updateTimeDisplay();
     }
 
+
+
     #[On('timer-status-changed')]
     public function onTimerStatusChanged($data)
     {

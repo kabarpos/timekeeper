@@ -20,18 +20,11 @@
             <!-- Timer Control -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-semibold mb-4">Timer Control Panel</h3>
                     @livewire('admin.timer-control')
                 </div>
             </div>
             
-            <!-- Quick Settings -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-semibold mb-4">Display Settings</h3>
-                    @livewire('admin.settings-form')
-                </div>
-            </div>
+
         </div>
     </div>
     

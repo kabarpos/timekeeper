@@ -1,103 +1,102 @@
-<div class="bg-white rounded-lg shadow-lg p-6">
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Pengaturan Tampilan</h2>
+<div class="space-y-8">
+    <!-- Neumorphic Message Settings with Status Display -->
+    <div class="p-8 rounded-3xl bg-gradient-to-br from-slate-50/80 to-white/80 backdrop-blur-sm shadow-[inset_20px_20px_40px_#d1d5db,inset_-20px_-20px_40px_#ffffff] border border-white/50">
         
-        <!-- Settings Form -->
-        <form wire:submit.prevent="save">
-            <div class="mb-6">
-                <!-- Color Settings -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Pengaturan Warna</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Warna Background</label>
-                            <div class="flex gap-3 items-center">
-                                <input 
-                                    type="color" 
-                                    wire:model="bg_color" 
-                                    class="w-16 h-10 border border-gray-300 rounded-lg cursor-pointer">
-                                <input 
-                                    type="text" 
-                                    wire:model="bg_color" 
-                                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="#000000">
-                            </div>
-                            @error('bg_color') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Warna Font</label>
-                            <div class="flex gap-3 items-center">
-                                <input 
-                                    type="color" 
-                                    wire:model="font_color" 
-                                    class="w-16 h-10 border border-gray-300 rounded-lg cursor-pointer">
-                                <input 
-                                    type="text" 
-                                    wire:model="font_color" 
-                                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="#ffffff">
-                            </div>
-                            @error('font_color') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
+        <!-- Current Display Status -->
+        <div class="mb-8 p-6 rounded-2xl bg-gradient-to-br from-white/60 to-slate-50/60 backdrop-blur-sm shadow-[8px_8px_16px_#bebebe,-8px_-8px_16px_#ffffff] border border-white/40">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                   
+                    <div>
+                        <div class="text-lg font-bold text-slate-700">Status Display Saat Ini</div>
+                        <div class="text-sm text-slate-500">Mode: <span class="font-semibold text-{{ $display_mode === 'timer' ? 'blue' : 'purple' }}-600">{{ ucfirst($display_mode) }}</span></div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Preview Section -->
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">Preview Warna</h3>
-                <div 
-                    class="rounded-lg p-6 text-center border-2 border-dashed border-gray-300"
-                    style="{{ $this->preview_style }}">
-                    <div class="text-2xl font-bold mb-2">05:30</div>
-                    <div class="text-sm opacity-75">Preview tampilan dengan warna yang dipilih</div>
-                </div>
-            </div>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="flex gap-3">
-                <button 
-                    type="submit" 
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                    <i class="fas fa-save mr-2"></i>Simpan Pengaturan
-                </button>
-                
-                <button 
-                    type="button" 
-                    wire:click="resetToDefault" 
-                    class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-                    <i class="fas fa-undo mr-2"></i>Reset ke Default
-                </button>
-            </div>
-        </form>
-        
-        <!-- Current Settings Info -->
-        <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h4 class="font-semibold text-gray-800 mb-2">Pengaturan Saat Ini:</h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div>
-                    <span class="text-gray-600">Background:</span>
-                    <span class="font-mono ml-2">{{ $bg_color }}</span>
-                </div>
-                <div>
-                    <span class="text-gray-600">Font:</span>
-                    <span class="font-mono ml-2">{{ $font_color }}</span>
-                </div>
-                <div>
-                    <span class="text-gray-600">Mode:</span>
-                    <span class="font-semibold ml-2 capitalize">{{ $display_mode }}</span>
+                <div class="flex gap-3">
+                    <button 
+                        wire:click="switchToTimer" 
+                        class="px-4 py-2 rounded-xl {{ $display_mode === 'timer' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-[4px_4px_8px_#3b82f6/30]' : 'bg-gradient-to-br from-white/80 to-slate-50/80 text-slate-600 shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff]' }} border border-white/30 transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm font-semibold">
+                        Timer
+                    </button>
+                    <button 
+                        wire:click="switchToMessage" 
+                        class="px-4 py-2 rounded-xl {{ $display_mode === 'message' ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-[4px_4px_8px_#a855f7/30]' : 'bg-gradient-to-br from-white/80 to-slate-50/80 text-slate-600 shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff]' }} border border-white/30 transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm font-semibold">
+                        Message
+                    </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Recent Messages List -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-bold text-slate-700">Pesan Terbaru</h4>
+                <a href="/admin/messages" class="text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors duration-200">Kelola Semua Pesan →</a>
+            </div>
+            
+            @if($recent_messages && count($recent_messages) > 0)
+                <div class="space-y-3">
+                    @foreach($recent_messages as $message)
+                        <div class="p-4 rounded-xl bg-gradient-to-br from-white/60 to-slate-50/60 backdrop-blur-sm shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff] border border-white/40 transition-all duration-300 hover:shadow-[8px_8px_16px_#bebebe,-8px_-8px_16px_#ffffff]">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-lg {{ $message->type === 'short' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' }}">{{ ucfirst($message->type) }}</span>
+                                        @if($message->is_active)
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-lg bg-emerald-100 text-emerald-700">Aktif</span>
+                                        @endif
+                                    </div>
+                                    <div class="text-sm font-semibold text-slate-700 mb-1">{{ $message->title ?: 'Tanpa Judul' }}</div>
+                                    <div class="text-xs text-slate-500 line-clamp-2">{{ Str::limit($message->content, 100) }}</div>
+                                </div>
+                                <div class="flex items-center space-x-2 ml-4">
+                                    <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm" style="background-color: {{ $message->bg_color }}"></div>
+                                    <div class="w-4 h-4 rounded-full border-2 border-white shadow-sm" style="background-color: {{ $message->font_color }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="p-6 rounded-xl bg-gradient-to-br from-slate-100/60 to-slate-50/60 backdrop-blur-sm shadow-[inset_6px_6px_12px_#bebebe,inset_-6px_-6px_12px_#ffffff] border border-white/40 text-center">
+                    <div class="text-slate-500 mb-2">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-sm font-medium text-slate-600">Belum ada pesan tersimpan</div>
+                    <div class="text-xs text-slate-500 mt-1">Buat pesan pertama Anda di halaman Message Management</div>
+                </div>
+            @endif
+        </div>
     </div>
+
+
     
-    <!-- Success/Error Messages -->
+    <!-- Neumorphic Success/Error Messages -->
     @if (session()->has('message'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
-            {{ session('message') }}
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-green-50/80 to-emerald-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#10b981/20,-12px_-12px_24px_#ffffff] border border-green-200/50 transition-all duration-500 transform animate-pulse">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[6px_6px_12px_#10b981/30]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-green-800 font-bold text-lg">{{ session('message') }}</span>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-red-50/80 to-rose-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#ef4444/20,-12px_-12px_24px_#ffffff] border border-red-200/50 transition-all duration-500 transform animate-pulse">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[6px_6px_12px_#ef4444/30]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-red-800 font-bold text-lg">{{ session('error') }}</span>
+            </div>
         </div>
     @endif
 </div>

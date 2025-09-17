@@ -6,14 +6,18 @@ use App\Models\Timer;
 use App\Models\Setting;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 
 class TimerControl extends Component
 {
-    public $duration_minutes = 5;
+
+    
+ 
     
     // Tidak menggunakan properti publik untuk Model karena akan conflict dengan validasi
     private $timer;
     private $current_timer;
+    private $setting;
 
     public function mount()
     {
@@ -26,6 +30,22 @@ class TimerControl extends Component
             ]);
         }
     }
+    
+    private function getSetting()
+    {
+        if (!$this->setting) {
+            $this->setting = Setting::first() ?? Setting::create([
+                'bg_color' => '#000000',
+                'font_color' => '#ffffff',
+                'timer_bg_color' => '#000000',
+                'timer_font_color' => '#ffffff',
+                'display_mode' => 'timer'
+            ]);
+        }
+        return $this->setting;
+    }
+    
+
     
     private function getCurrentTimer()
     {
@@ -124,32 +144,10 @@ class TimerControl extends Component
         session()->flash('success', 'Timer berhasil direset!');
     }
 
-    public function setDuration()
-    {
-        $duration_seconds = $this->duration_minutes * 60;
-        
-        $timer = $this->getCurrentTimer();
-        $timer->update([
-            'duration_seconds' => $duration_seconds,
-            'remaining_seconds' => $duration_seconds,
-            'status' => 'stopped',
-            'started_at' => null,
-            'ended_at' => null
-        ]);
-        
-        // Broadcast events untuk real-time sync
-        $this->dispatch('timer-duration-set')->to('display-timer');
-        $this->dispatch('timer-status-changed', [
-            'status' => 'stopped',
-            'remaining_seconds' => $duration_seconds,
-            'duration_seconds' => $duration_seconds
-        ])->to('display-timer');
-        
-        session()->flash('success', "Durasi timer berhasil diset ke {$this->duration_minutes} menit!");
-    }
 
+    
 
-
+    
 
 
     public function render()

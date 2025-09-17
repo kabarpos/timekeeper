@@ -22,8 +22,9 @@ Route::get('/message', function () {
 
 // Admin routes - Protected dengan auth middleware
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Redirect dashboard to admin
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return redirect()->route('admin.index');
     })->name('dashboard');
     
     Route::prefix('admin')->name('admin.')->group(function () {
