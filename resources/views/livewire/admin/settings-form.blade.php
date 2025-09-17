@@ -27,6 +27,32 @@
             </div>
         </div>
         
+        <!-- Quick Settings Access -->
+        <div class="mb-6">
+            <h4 class="text-lg font-bold text-slate-700 mb-4">Pengaturan Lanjutan</h4>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <a href="{{ route('admin.color-settings') }}" class="group p-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-[12px_12px_24px_#a855f7/30] hover:shadow-[16px_16px_32px_#a855f7/40] transform hover:scale-105 transition-all duration-300">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-2xl">🎨</div>
+                        <div>
+                            <div class="font-bold text-sm">Pengaturan Warna</div>
+                            <div class="text-xs opacity-90">Atur warna background & font</div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="{{ route('admin.timer-settings') }}" class="group p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-[12px_12px_24px_#3b82f6/30] hover:shadow-[16px_16px_32px_#3b82f6/40] transform hover:scale-105 transition-all duration-300">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-2xl">⏱️</div>
+                        <div>
+                            <div class="font-bold text-sm">Pengaturan Timer</div>
+                            <div class="text-xs opacity-90">Atur durasi & tampilan timer</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
         <!-- Recent Messages List -->
         <div class="mb-6">
             <div class="flex items-center justify-between mb-4">
@@ -71,8 +97,6 @@
         </div>
     </div>
 
-
-    
     <!-- Neumorphic Success/Error Messages -->
     @if (session()->has('message'))
         <div class="p-6 rounded-2xl bg-gradient-to-br from-green-50/80 to-emerald-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#10b981/20,-12px_-12px_24px_#ffffff] border border-green-200/50 transition-all duration-500 transform animate-pulse">

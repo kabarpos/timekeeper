@@ -1,9 +1,13 @@
 <div class="space-y-8">
     <!-- Neumorphic Timer Display -->
-    <div class="p-8 rounded-3xl bg-gradient-to-br from-slate-50/80 to-white/80 backdrop-blur-sm shadow-[inset_20px_20px_40px_#d1d5db,inset_-20px_-20px_40px_#ffffff] border border-white/50">
+    <div class="p-8 rounded-3xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[20px_20px_40px_#bebebe,-20px_-20px_40px_#ffffff] border border-white/30">
         <div class="text-center">
-            <div class="text-6xl font-mono font-black bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4 tracking-wider">
-                {{ $timer ? $timer->formatted_time : '00:00' }}
+            <!-- Timer Display -->
+            <div class="mb-6 p-6 rounded-2xl shadow-[inset_12px_12px_24px_rgba(0,0,0,0.3),inset_-12px_-12px_24px_rgba(255,255,255,0.1)]" style="{{ $this->timer_style }}">
+                <div class="text-6xl font-mono font-black mb-2 tracking-wider drop-shadow-lg">
+                    {{ str_pad(floor($timer->remaining_seconds / 60), 2, '0', STR_PAD_LEFT) }}:{{ str_pad($timer->remaining_seconds % 60, 2, '0', STR_PAD_LEFT) }}
+                </div>
+                <div class="text-lg font-semibold opacity-80">{{ ucfirst($timer->status) }}</div>
             </div>
             <div class="flex items-center justify-center space-x-3">
                 <div class="w-3 h-3 rounded-full animate-pulse

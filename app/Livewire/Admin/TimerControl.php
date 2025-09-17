@@ -150,6 +150,19 @@ class TimerControl extends Component
     
 
 
+    public function getTimerStyleProperty()
+    {
+        $setting = $this->getSetting();
+        return "background: {$setting->timer_bg_color}; color: {$setting->timer_font_color};";
+    }
+
+    #[On('timer-settings-updated')]
+    public function refreshTimerSettings()
+    {
+        $this->setting = null; // Reset cache
+        $this->getSetting(); // Reload settings
+    }
+
     public function render()
     {
         return view('livewire.admin.timer-control', [

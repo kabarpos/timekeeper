@@ -43,6 +43,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/settings', function () {
             return view('admin.settings');
         })->name('settings');
+        
+        Route::get('/color-settings', function () {
+            return view('admin.color-settings');
+        })->name('color-settings');
+        
+        Route::get('/timer-settings', function () {
+            return view('admin.timer-settings');
+        })->name('timer-settings');
     });
 });
 
