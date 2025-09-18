@@ -1,7 +1,7 @@
 <div 
     class="min-h-screen flex items-center justify-center p-8 font-manrope"
     style="background-color: {{ $background_color }}; color: {{ $font_color }};"
-    wire:poll.1000ms="updateTimeDisplay">
+    @if($timer && $timer->isRunning()) wire:poll.1000ms="updateTimeDisplay" @endif>
     
     <div class="text-center w-full max-w-4xl">
         <!-- Timer Display -->

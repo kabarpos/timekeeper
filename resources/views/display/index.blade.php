@@ -30,7 +30,7 @@
     @livewireScripts
     
     <script>
-        // Polling untuk memeriksa perubahan display mode setiap 2 detik
+        // Polling untuk memeriksa perubahan display mode setiap 10 detik (dikurangi frekuensi)
         let currentMode = '{{ $setting->display_mode }}';
         setInterval(function() {
             fetch('/api/current-display-mode')
@@ -45,12 +45,7 @@
                 .catch(error => {
                     console.error('Error checking display mode:', error);
                 });
-        }, 2000);
-        
-        // Auto refresh setiap 30 detik untuk sinkronisasi umum
-        setInterval(function() {
-            Livewire.dispatch('refresh-display');
-        }, 30000);
+        }, 10000); // Dikurangi dari 5000ms ke 10000ms
         
         // Listen untuk display mode changes dan refresh halaman
         document.addEventListener('livewire:init', () => {
@@ -71,7 +66,7 @@
             }, 100);
         });
         
-        // Listen for force reload events via polling
+        // Listen for force reload events via polling - dikurangi frekuensi
         let lastForceReloadCheck = Date.now();
         setInterval(function() {
             fetch('/api/force-reload-status')
@@ -86,7 +81,7 @@
                 .catch(error => {
                     console.error('Error checking force reload status:', error);
                 });
-        }, 1000);
+        }, 5000); // Dikurangi dari 3000ms ke 5000ms
         
         // Fullscreen toggle dengan F11
         document.addEventListener('keydown', function(e) {

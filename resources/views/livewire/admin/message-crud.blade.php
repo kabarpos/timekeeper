@@ -1,71 +1,57 @@
-<div class="space-y-6">
+<div class="space-y-4">
     <!-- Message Form -->
-    <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
-        <div class="flex items-center gap-x-3 mb-6">
-            <div class="flex-shrink-0">
-                <span class="flex size-8 items-center justify-center rounded-lg bg-blue-600 text-white">
-                    <i class="fas fa-comment-alt flex-shrink-0 size-4"></i>
-                </span>
-            </div>
-            <div class="grow">
-                <h2 class="text-lg font-semibold text-gray-800">
-                    {{ $editing_id ? 'Edit Pesan' : 'Tambah Pesan Baru' }}
-                </h2>
-                <p class="text-sm text-gray-500">Kelola pesan yang akan ditampilkan</p>
-            </div>
-        </div>
-        
-        <form wire:submit.prevent="save" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="space-y-4">
+        <form wire:submit.prevent="save" class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Judul Pesan</label>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul Pesan</label>
                     <input 
                         type="text" 
                         id="title"
                         wire:model="title" 
-                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                        placeholder="Masukkan judul pesan yang menarik...">
-                    @error('title') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Masukkan judul pesan...">
+                    @error('title') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
                 
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Tipe Pesan</label>
+                    <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Tipe Pesan</label>
                     <select 
                         id="type"
                         wire:model="type" 
-                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                         <option value="short">Pesan Pendek</option>
                         <option value="long">Pesan Panjang</option>
                     </select>
-                    @error('type') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
+                    @error('type') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
             
             <div>
-                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Konten Pesan</label>
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Konten Pesan</label>
                 <textarea 
                     id="content"
                     wire:model="content" 
-                    rows="6" 
-                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                    placeholder="Tulis konten pesan yang akan ditampilkan..."></textarea>
-                @error('content') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
+                    rows="4" 
+                    class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Tulis konten pesan..."></textarea>
+                @error('content') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
             </div>
             
-            <div class="flex gap-3 pt-4">
+            <div class="flex gap-2 pt-2">
                 <button 
                     type="submit" 
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                    <i class="fas fa-save flex-shrink-0 size-4"></i>
-                    {{ $editing_id ? 'Update Pesan' : 'Simpan Pesan' }}
+                    class="py-2 px-3 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+                    <i class="fas fa-save text-xs mr-1"></i>
+                    {{ $editing_id ? 'Update' : 'Simpan' }}
                 </button>
                 
                 @if($editing_id)
                     <button 
                         type="button" 
                         wire:click="resetForm" 
-                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                        <i class="fas fa-times flex-shrink-0 size-4"></i>
+                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
+                        <i class="fas fa-times text-xs mr-1"></i>
                         Batal
                     </button>
                 @endif
@@ -74,30 +60,24 @@
     </div>
         
     <!-- Messages List -->
-    <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
-        <div class="flex items-center gap-x-3 mb-6">
-            <div class="flex-shrink-0">
-                <span class="flex size-8 items-center justify-center rounded-lg bg-purple-600 text-white">
-                    <i class="fas fa-list flex-shrink-0 size-4"></i>
-                </span>
+    <div class="space-y-3">
+        <div class="flex items-center gap-x-2 mb-3">
+            <div class="flex-shrink-0 size-6 bg-purple-600 text-white rounded flex items-center justify-center">
+                <i class="fas fa-list text-xs"></i>
             </div>
-            <div class="grow">
-                <h3 class="text-lg font-semibold text-gray-800">Daftar Pesan</h3>
-                <p class="text-sm text-gray-500">Kelola semua pesan yang tersedia</p>
-            </div>
+            <h3 class="text-sm font-medium text-gray-800">Daftar Pesan ({{ count($messages) }})</h3>
         </div>
         
-        <div class="space-y-3">
+        <div class="space-y-2">
             @forelse($messages as $msg)
-                <div class="group border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+                <div class="border border-gray-200 rounded-lg p-3 hover:shadow-sm transition-shadow">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <div class="flex items-center gap-x-3 mb-2">
-                                <h4 class="text-sm font-semibold text-gray-800">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
-                                <div class="flex gap-x-2">
-                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
-                                        {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
-                                    </span>
+                            <div class="flex items-center gap-x-2 mb-1">
+                                <h4 class="text-sm font-medium text-gray-800">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
+                                    {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
+                                </span>
                                     <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $msg->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
                                         {{ $msg->is_active ? 'Aktif' : 'Tidak Aktif' }}
                                     </span>

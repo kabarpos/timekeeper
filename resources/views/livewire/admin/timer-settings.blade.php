@@ -1,109 +1,94 @@
-<!-- Timer Settings Card -->
-<div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center space-x-3">
-            <div class="flex-shrink-0">
-                <span class="inline-flex justify-center items-center size-10 rounded-lg bg-purple-100 text-purple-600">
-                    <i class="fas fa-cog text-lg"></i>
-                </span>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold text-gray-800">Timer Settings</h2>
-                <p class="text-sm text-gray-600">Atur durasi dan tampilan timer</p>
+<div>
+    <form wire:submit.prevent="saveSettings" class="space-y-4">
+        <!-- Duration Presets -->
+        <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2">Preset Durasi</label>
+            <div class="grid grid-cols-2 gap-2">
+                <button wire:click="setDuration(5)" type="button" 
+                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors">
+                    5 Menit
+                </button>
+                <button wire:click="setDuration(10)" type="button" 
+                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors">
+                    10 Menit
+                </button>
+                <button wire:click="setDuration(15)" type="button" 
+                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors">
+                    15 Menit
+                </button>
+                <button wire:click="setDuration(30)" type="button" 
+                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors">
+                    30 Menit
+                </button>
             </div>
         </div>
-    </div>
 
-    <form wire:submit.prevent="save" class="space-y-6">
-        <!-- Pengaturan Durasi Timer -->
-        <div class="mb-8">
-            <label class="block text-sm font-bold text-slate-700 mb-4">Durasi Timer</label>
-            
-            <!-- Preset Durasi -->
-            <div class="mb-6">
-                <h4 class="text-sm font-medium text-gray-900 mb-3">Preset Durasi</h4>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    @foreach([5, 10, 15, 30] as $minutes)
-                        <button wire:click="setDuration({{ $minutes }})" type="button"
-                                class="py-3 px-4 inline-flex flex-col items-center justify-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                            <span class="text-lg font-bold text-purple-600">{{ $minutes }}</span>
-                            <span class="text-xs text-gray-500">menit</span>
-                        </button>
-                    @endforeach
+        <!-- Custom Duration -->
+        <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2">Durasi Custom</label>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <input wire:model="duration_minutes" type="number" min="0" max="59" placeholder="Menit"
+                           class="py-2 px-3 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
-            </div>
-            
-            <!-- Input Manual -->
-            <div class="mb-6">
-                <h4 class="text-sm font-medium text-gray-900 mb-3">Input Manual</h4>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="minutes" class="block text-sm font-medium mb-2">Menit</label>
-                        <input wire:model="duration_minutes" type="number" min="0" max="59" id="minutes"
-                               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                    </div>
-                    <div>
-                        <label for="seconds" class="block text-sm font-medium mb-2">Detik</label>
-                        <input wire:model="duration_seconds" type="number" min="0" max="59" id="seconds"
-                               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                    </div>
+                <div>
+                    <input wire:model="duration_seconds" type="number" min="0" max="59" placeholder="Detik"
+                           class="py-2 px-3 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
             </div>
             @error('duration_minutes') 
-                <div class="text-red-500 text-sm font-medium mt-2 p-2 rounded-lg bg-red-50/50">{{ $message }}</div> 
+                <div class="text-red-500 text-xs mt-1">{{ $message }}</div> 
             @enderror
         </div>
         
         <!-- Color Settings -->
-        <div class="mb-6">
-            <h4 class="text-sm font-medium text-gray-900 mb-3">Pengaturan Warna</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2">Pengaturan Warna</label>
+            <div class="space-y-2">
                 <div>
-                    <label for="bg-color" class="block text-sm font-medium mb-2">Warna Background</label>
+                    <label class="block text-xs text-gray-600 mb-1">Background</label>
                     <div class="flex">
-                        <input wire:model="background_color" type="color" id="bg-color"
-                               class="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-s-lg disabled:opacity-50 disabled:pointer-events-none">
+                        <input wire:model="background_color" type="color"
+                               class="p-1 h-8 w-12 bg-white border border-gray-200 cursor-pointer rounded-s-lg">
                         <input wire:model="background_color" type="text" 
-                               class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                               class="py-2 px-3 block w-full border-gray-200 rounded-e-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
                 <div>
-                    <label for="font-color" class="block text-sm font-medium mb-2">Warna Font</label>
+                    <label class="block text-xs text-gray-600 mb-1">Font</label>
                     <div class="flex">
-                        <input wire:model="font_color" type="color" id="font-color"
-                               class="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-s-lg disabled:opacity-50 disabled:pointer-events-none">
+                        <input wire:model="font_color" type="color"
+                               class="p-1 h-8 w-12 bg-white border border-gray-200 cursor-pointer rounded-s-lg">
                         <input wire:model="font_color" type="text" 
-                               class="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                               class="py-2 px-3 block w-full border-gray-200 rounded-e-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Timer Preview -->
-        <div class="mb-6">
-            <h4 class="text-sm font-medium text-gray-900 mb-3">Preview Timer</h4>
-            <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl p-8" 
+        <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2">Preview</label>
+            <div class="bg-gray-50 border border-gray-300 rounded-lg p-4 text-center" 
                  style="background-color: {{ $background_color ?? '#f9fafb' }}; color: {{ $font_color ?? '#111827' }}">
-                <div class="text-center">
-                    <div class="text-6xl font-mono font-bold mb-2">
-                        {{ sprintf('%02d:%02d', $duration_minutes ?? 0, $duration_seconds ?? 0) }}
-                    </div>
-                    <div class="text-lg opacity-75">Preview</div>
+                <div class="text-3xl font-mono font-bold mb-1">
+                    {{ sprintf('%02d:%02d', $duration_minutes ?? 0, $duration_seconds ?? 0) }}
                 </div>
+                <div class="text-xs opacity-75">Preview Timer</div>
             </div>
         </div>
         
         <!-- Action Buttons -->
-        <div class="flex justify-center gap-3">
+        <div class="flex gap-2">
             <button wire:click="saveSettings" type="button" 
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                <i class="fas fa-save flex-shrink-0 size-4"></i>
+                    class="flex-1 py-2 px-3 inline-flex items-center justify-center gap-x-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                <i class="fas fa-save text-xs"></i>
                 Simpan
             </button>
             
             <button wire:click="resetSettings" type="button" 
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i class="fas fa-undo flex-shrink-0 size-4"></i>
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-undo text-xs"></i>
                 Reset
             </button>
         </div>
@@ -111,41 +96,19 @@
     
     <!-- Success/Error Messages -->
     @if (session()->has('message'))
-        <div class="mt-6 bg-teal-50 border border-teal-200 rounded-xl p-4" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800">
-                        <i class="fas fa-check flex-shrink-0 size-4"></i>
-                    </span>
-                </div>
-                <div class="ms-3">
-                    <h3 id="hs-soft-color-success-label" class="text-gray-800 font-semibold">
-                        Berhasil!
-                    </h3>
-                    <p class="text-sm text-gray-700">
-                        {{ session('message') }}
-                    </p>
-                </div>
+        <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-3">
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-600 text-sm mr-2"></i>
+                <p class="text-sm text-green-800">{{ session('message') }}</p>
             </div>
         </div>
     @endif
 
     @if (session()->has('error'))
-        <div class="mt-6 bg-red-50 border border-red-200 rounded-xl p-4" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800">
-                        <i class="fas fa-exclamation-triangle flex-shrink-0 size-4"></i>
-                    </span>
-                </div>
-                <div class="ms-3">
-                    <h3 id="hs-soft-color-danger-label" class="text-gray-800 font-semibold">
-                        Error!
-                    </h3>
-                    <p class="text-sm text-gray-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
+        <div class="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-red-600 text-sm mr-2"></i>
+                <p class="text-sm text-red-800">{{ session('error') }}</p>
             </div>
         </div>
     @endif

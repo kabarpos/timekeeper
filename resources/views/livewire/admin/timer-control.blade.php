@@ -15,54 +15,68 @@
     </div>
 
     <!-- Timer Display -->
-    <div class="text-center mb-8">
-        <div class="bg-gray-50 border border-gray-200 rounded-xl p-8">
-            <div class="text-6xl font-mono font-bold text-gray-900 mb-4" id="timer-display">
-                {{ str_pad(floor($timer->remaining_seconds / 60), 2, '0', STR_PAD_LEFT) }}:{{ str_pad($timer->remaining_seconds % 60, 2, '0', STR_PAD_LEFT) }}
-            </div>
-            <div class="flex justify-center">
-                @if($timer && $timer->isRunning())
-                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-                        <span class="size-1.5 inline-block rounded-full bg-teal-800 animate-pulse"></span>
-                        Berjalan
-                    </span>
-                @elseif($timer && $timer->isPaused())
-                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        <span class="size-1.5 inline-block rounded-full bg-yellow-800"></span>
-                        Jeda
-                    </span>
-                @else
-                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                        <span class="size-1.5 inline-block rounded-full bg-gray-800"></span>
-                        Berhenti
-                    </span>
-                @endif
-            </div>
+    <div class="text-center mb-6">
+        <div class="text-6xl font-mono font-bold text-gray-900 mb-2">
+            {{ $timer->formatted_time }}
+        </div>
+        <div class="text-sm font-medium">
+            @if($timer->isRunning())
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                    <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-1.5"></span>
+                    Berjalan
+                </span>
+            @elseif($timer->isPaused())
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
+                    <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-1.5"></span>
+                    Jeda
+                </span>
+            @else
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full mr-1.5"></span>
+                    Berhenti
+                </span>
+            @endif
         </div>
     </div>
 
     <!-- Control Buttons -->
-    <div class="flex justify-center gap-3 mb-6">
-        @if($timer && !$timer->isRunning())
-            <button wire:click="startTimer" type="button" 
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus:bg-teal-700 disabled:opacity-50 disabled:pointer-events-none">
-                <i class="fas fa-play flex-shrink-0 size-4"></i>
-                Mulai
+    <div class="flex justify-center gap-3">
+        @if(!$timer->isRunning())
+            <button wire:click="startTimer" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors">
+                <i class="fas fa-play text-xs mr-2"></i>
+                {{ $timer->isPaused() ? 'Lanjutkan' : 'Mulai' }}
             </button>
         @else
-            <button wire:click="pauseTimer" type="button" 
-                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 focus:outline-none focus:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none">
-                <i class="fas fa-pause flex-shrink-0 size-4"></i>
+            <button wire:click="pauseTimer" class="inline-flex items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-medium rounded-lg transition-colors">
+                <i class="fas fa-pause text-xs mr-2"></i>
                 Jeda
             </button>
         @endif
-        
-        <button wire:click="resetTimer" type="button" 
-                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
-            <i class="fas fa-redo flex-shrink-0 size-4"></i>
+
+        <button wire:click="resetTimer" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors">
+            <i class="fas fa-stop text-xs mr-2"></i>
             Reset
         </button>
     </div>
+
+    <!-- Progress Bar -->
+    @if($timer->duration_seconds > 0)
+        <div class="mt-6">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+                <span>Progress</span>
+                @php
+                    $progress = $timer->duration_seconds > 0 
+                        ? round((($timer->duration_seconds - $timer->remaining_seconds) / $timer->duration_seconds) * 100) 
+                        : 0;
+                @endphp
+                <span>{{ $progress }}%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full transition-all duration-1000" 
+                     style="width: {{ $progress }}%"></div>
+            </div>
+        </div>
+    @endif
     
     <!-- Success/Error Messages -->
     @if (session()->has('message'))

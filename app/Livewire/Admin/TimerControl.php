@@ -165,8 +165,17 @@ class TimerControl extends Component
 
     public function render()
     {
+        $timer = $this->getCurrentTimer();
+        
+        // Update remaining_seconds real-time jika timer sedang berjalan
+        if ($timer->isRunning() && $timer->started_at) {
+            $elapsed = now()->diffInSeconds($timer->started_at);
+            $newRemaining = max(0, $timer->duration_seconds - $elapsed);
+            $timer->remaining_seconds = $newRemaining;
+        }
+        
         return view('livewire.admin.timer-control', [
-            'timer' => $this->getCurrentTimer()
+            'timer' => $timer
         ]);
     }
 }

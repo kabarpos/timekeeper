@@ -22,12 +22,7 @@
     @livewireScripts
     
     <script>
-        // Auto refresh setiap 1 detik untuk timer
-        setInterval(function() {
-            Livewire.dispatch('display-updated');
-        }, 1000);
-        
-        // Listen for force reload events via polling
+        // Listen for force reload events via polling - dikurangi frekuensi
         let lastForceReloadCheck = Date.now();
         setInterval(function() {
             fetch('/api/force-reload-status')
@@ -42,7 +37,7 @@
                 .catch(error => {
                     console.error('Error checking force reload status:', error);
                 });
-        }, 1000);
+        }, 5000); // Dikurangi dari 3000ms ke 5000ms
         
         // Fullscreen toggle dengan F11
         document.addEventListener('keydown', function(e) {
