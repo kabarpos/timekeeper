@@ -9,6 +9,8 @@ class Setting extends Model
     protected $fillable = [
         'bg_color',
         'font_color',
+        'timer_bg_color',
+        'timer_font_color',
         'display_mode'
     ];
 
@@ -17,6 +19,8 @@ class Setting extends Model
         return static::first() ?? static::create([
             'bg_color' => '#000000',
             'font_color' => '#ffffff',
+            'timer_bg_color' => '#000000',
+            'timer_font_color' => '#ffffff',
             'display_mode' => 'timer'
         ]);
     }

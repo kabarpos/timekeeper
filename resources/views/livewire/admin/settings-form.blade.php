@@ -74,6 +74,19 @@
                                 <p class="text-sm font-semibold text-gray-900">{{ $message->title ?: 'Tanpa Judul' }}</p>
                                 <p class="text-sm text-gray-500 truncate">{{ Str::limit($message->content, 80) }}</p>
                             </div>
+                            <div class="flex-shrink-0">
+                                <button 
+                                    wire:click="toggleMessageStatus({{ $message->id }})"
+                                    class="inline-flex items-center gap-x-1 py-1.5 px-3 text-xs font-medium rounded-lg border {{ $message->is_active ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100' : 'border-green-200 bg-green-50 text-green-700 hover:bg-green-100' }} focus:outline-none transition-colors">
+                                    @if($message->is_active)
+                                        <i class="fas fa-eye-slash flex-shrink-0 size-3"></i>
+                                        Nonaktifkan
+                                    @else
+                                        <i class="fas fa-eye flex-shrink-0 size-3"></i>
+                                        Aktifkan
+                                    @endif
+                                </button>
+                            </div>
                         </div>
                     @endforeach
                 </div>

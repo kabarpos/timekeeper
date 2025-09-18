@@ -48,18 +48,18 @@
                 <div>
                     <label class="block text-xs text-gray-600 mb-1">Background</label>
                     <div class="flex">
-                        <input wire:model="background_color" type="color"
+                        <input wire:model="timer_bg_color" type="color"
                                class="p-1 h-8 w-12 bg-white border border-gray-200 cursor-pointer rounded-s-lg">
-                        <input wire:model="background_color" type="text" 
+                        <input wire:model="timer_bg_color" type="text" 
                                class="py-2 px-3 block w-full border-gray-200 rounded-e-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs text-gray-600 mb-1">Font</label>
                     <div class="flex">
-                        <input wire:model="font_color" type="color"
+                        <input wire:model="timer_font_color" type="color"
                                class="p-1 h-8 w-12 bg-white border border-gray-200 cursor-pointer rounded-s-lg">
-                        <input wire:model="font_color" type="text" 
+                        <input wire:model="timer_font_color" type="text" 
                                class="py-2 px-3 block w-full border-gray-200 rounded-e-lg text-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-900 mb-2">Preview</label>
             <div class="bg-gray-50 border border-gray-300 rounded-lg p-4 text-center" 
-                 style="background-color: {{ $background_color ?? '#f9fafb' }}; color: {{ $font_color ?? '#111827' }}">
+                 style="background-color: {{ $timer_bg_color ?? '#f9fafb' }}; color: {{ $timer_font_color ?? '#111827' }}">
                 <div class="text-3xl font-mono font-bold mb-1">
                     {{ sprintf('%02d:%02d', $duration_minutes ?? 0, $duration_seconds ?? 0) }}
                 </div>

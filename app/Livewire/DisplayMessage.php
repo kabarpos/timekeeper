@@ -37,9 +37,18 @@ class DisplayMessage extends Component
     
     public function loadData()
     {
+        // Refresh data dan clear cache untuk computed properties
         $this->message = Message::where('is_active', true)->first();
         $this->setting = Setting::current();
         $this->has_active_message = $this->message !== null;
+        
+        // Force refresh computed properties dengan cara yang benar
+        if (property_exists($this, 'computedPropertyCache')) {
+            $this->computedPropertyCache = [];
+        }
+        
+        // Force re-render untuk memastikan perubahan warna terlihat
+        $this->skipRender = false;
     }
     
     #[On('display-updated')]
@@ -51,12 +60,19 @@ class DisplayMessage extends Component
     #[On('settings-updated')]
     public function onSettingsUpdated($data = null)
     {
-        if ($data) {
-            // Update settings secara real-time
-            $setting = $this->getSetting();
-            $setting->bg_color = $data['bg_color'];
-            $setting->font_color = $data['font_color'];
-            $setting->display_mode = $data['display_mode'];
+        if ($data && isset($data['type']) && $data['type'] === 'message_colors') {
+            // Clear all cached data untuk message colors
+            $this->setting = null;
+            $this->message = null;
+            
+            // Force clear computed property cache
+            if (property_exists($this, 'computedPropertyCache')) {
+                $this->computedPropertyCache = [];
+            }
+            
+            // Reload data dan force re-render
+            $this->loadData();
+            $this->skipRender = false;
         } else {
             $this->loadData();
         }
@@ -92,6 +108,19 @@ class DisplayMessage extends Component
         $this->loadData();
     }
 
+    #[On('message-status-changed')]
+    public function onMessageStatusChanged($data)
+    {
+        // Reload data ketika status message berubah
+        $this->loadData();
+        
+        // Jika message yang sedang aktif dinonaktifkan
+        if (!$data['is_active'] && $this->message && $this->message->id == $data['message_id']) {
+            $this->has_active_message = false;
+            $this->message = null;
+        }
+    }
+    
     #[On('display-mode-changed')]
     public function onDisplayModeChanged($data)
     {
@@ -102,22 +131,37 @@ class DisplayMessage extends Component
     
     public function getBackgroundColorProperty()
     {
+        // Prioritas: Warna dari pesan aktif (jika bukan default), lalu fallback ke settings message
         $message = $this->getMessage();
-        if ($message) {
+        if ($message && !empty($message->bg_color) && $message->bg_color !== '#000000') {
             return $message->bg_color;
         }
         
-        return $this->getSetting()->bg_color;
+        // Fallback ke warna message di settings (bukan timer)
+        return $this->getSetting()->bg_color ?? '#000000';
     }
     
     public function getFontColorProperty()
     {
+        // Prioritas: Warna dari pesan aktif (jika bukan default), lalu fallback ke settings message
         $message = $this->getMessage();
-        if ($message) {
+        if ($message && !empty($message->font_color) && $message->font_color !== '#ffffff') {
             return $message->font_color;
         }
         
-        return $this->getSetting()->font_color;
+        // Fallback ke warna message di settings (bukan timer)
+        return $this->getSetting()->font_color ?? '#ffffff';
+    }
+    
+    // Method terpisah untuk timer colors (tidak digunakan di message display)
+    public function getTimerBackgroundColorProperty()
+    {
+        return $this->getSetting()->timer_bg_color ?? '#000000';
+    }
+    
+    public function getTimerFontColorProperty()
+    {
+        return $this->getSetting()->timer_font_color ?? '#ffffff';
     }
     
     public function getMessageTitleProperty()

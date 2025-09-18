@@ -17,8 +17,6 @@ class DisplayTimer extends Component
     public $is_warning = false;
     public $formatted_time = '00:00';
     public $status_text = 'Timer Siap';
-    public $background_color = '#000000';
-    public $font_color = '#ffffff';
     
     public function mount()
     {
@@ -66,12 +64,6 @@ class DisplayTimer extends Component
                 'remaining_seconds' => 300,
                 'status' => 'stopped'
             ]);
-        }
-        
-        // Load colors from settings
-        if ($this->setting) {
-            $this->background_color = $this->setting->bg_color ?? '#000000';
-            $this->font_color = $this->setting->font_color ?? '#ffffff';
         }
         
         $this->updateTimeDisplay();
@@ -251,12 +243,14 @@ class DisplayTimer extends Component
             return '#dc2626'; // Red warning color
         }
         
-        return $this->getSetting()->bg_color;
+        // Gunakan timer_bg_color khusus untuk timer, bukan bg_color message
+        return $this->getSetting()->timer_bg_color ?? '#000000';
     }
     
     public function getFontColorProperty()
     {
-        return $this->getSetting()->font_color;
+        // Gunakan timer_font_color khusus untuk timer, bukan font_color message
+        return $this->getSetting()->timer_font_color ?? '#ffffff';
     }
     
     public function render()
@@ -266,8 +260,8 @@ class DisplayTimer extends Component
             'setting' => $this->getSetting(),
             'formatted_time' => $this->formatted_time,
             'status_text' => $this->status_text,
-            'background_color' => $this->background_color,
-            'font_color' => $this->font_color
+            'background_color' => $this->getBackgroundColorProperty(),
+            'font_color' => $this->getFontColorProperty()
         ]);
     }
 }

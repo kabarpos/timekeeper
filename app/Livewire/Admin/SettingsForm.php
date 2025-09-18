@@ -86,6 +86,26 @@ class SettingsForm extends Component
         $this->loadData();
     }
     
+    public function toggleMessageStatus($messageId)
+    {
+        $message = Message::findOrFail($messageId);
+        $message->update([
+            'is_active' => !$message->is_active
+        ]);
+        
+        // Refresh data untuk update UI
+        $this->loadData();
+        
+        // Broadcast event untuk real-time sync ke display components
+        $this->dispatch('message-status-changed', [
+            'message_id' => $messageId,
+            'is_active' => $message->is_active
+        ]);
+        
+        $status = $message->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        session()->flash('message', "Pesan '{$message->title}' berhasil {$status}!");
+    }
+    
     public function render()
     {
         $setting = $this->getSetting();

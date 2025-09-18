@@ -1,5 +1,6 @@
 <div 
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white"
+    class="min-h-screen flex items-center justify-center font-manrope"
+    style="background-color: {{ $background_color }}; color: {{ $font_color }};"
     @if($message && $message->is_active) 
         wire:poll.10s="refreshDisplay"
     @endif

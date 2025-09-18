@@ -40,8 +40,18 @@ class MessageColorSettings extends Component
         
         session()->flash('message', 'Pengaturan warna message berhasil disimpan!');
         
-        // Broadcast event untuk update display
+        // Broadcast event untuk update display message dengan delay untuk memastikan database sudah tersimpan
+        $this->dispatch('settings-updated', [
+            'type' => 'message_colors',
+            'bg_color' => $this->bg_color,
+            'font_color' => $this->font_color
+        ])->to('display-message');
+        
+        // Broadcast global event juga
         $this->dispatch('color-updated');
+        
+        // Force refresh component ini juga
+        $this->mount();
     }
     
     public function resetToDefault()
@@ -60,8 +70,18 @@ class MessageColorSettings extends Component
         
         session()->flash('message', 'Pengaturan warna berhasil direset ke default!');
         
-        // Broadcast event untuk update display
+        // Broadcast event untuk update display message dengan delay untuk memastikan database sudah tersimpan
+        $this->dispatch('settings-updated', [
+            'type' => 'message_colors',
+            'bg_color' => $this->bg_color,
+            'font_color' => $this->font_color
+        ])->to('display-message');
+        
+        // Broadcast global event juga
         $this->dispatch('color-updated');
+        
+        // Force refresh component ini juga
+        $this->mount();
     }
     
     public function getPreviewStyleProperty()
