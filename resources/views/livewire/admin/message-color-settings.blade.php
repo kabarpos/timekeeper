@@ -4,19 +4,16 @@
             <!-- Warna Background Message -->
             <div class="space-y-4">
                 <label class="block text-sm font-bold text-slate-700 mb-3">Warna Background Message</label>
-                <div class="flex gap-4">
-                    <div class="relative">
-                        <input 
-                            type="color" 
-                            wire:model.live="bg_color" 
-                            class="w-16 h-16 rounded-2xl border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] cursor-pointer transition-all duration-300 hover:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff]">
-                        <div class="absolute inset-0 rounded-2xl border border-white/50 pointer-events-none"></div>
-                    </div>
+                <div class="flex gap-3 items-center">
+                    <input 
+                        type="color" 
+                        wire:model.live="bg_color" 
+                        class="w-10 h-10 rounded-lg border border-gray-300 cursor-pointer">
                     <input 
                         type="text" 
                         wire:model.live="bg_color" 
                         placeholder="#000000" 
-                        class="flex-1 px-4 py-3 rounded-2xl bg-white/50 border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] focus:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff] focus:outline-none transition-all duration-300 font-mono text-slate-700">
+                        class="flex-1 px-3 py-2 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:outline-none transition-colors font-mono text-sm text-slate-700">
                 </div>
                 @error('bg_color') 
                     <div class="text-red-500 text-sm font-medium mt-2 p-2 rounded-lg bg-red-50/50">{{ $message }}</div> 
@@ -26,19 +23,16 @@
             <!-- Warna Font Message -->
             <div class="space-y-4">
                 <label class="block text-sm font-bold text-slate-700 mb-3">Warna Font Message</label>
-                <div class="flex gap-4">
-                    <div class="relative">
-                        <input 
-                            type="color" 
-                            wire:model.live="font_color" 
-                            class="w-16 h-16 rounded-2xl border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] cursor-pointer transition-all duration-300 hover:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff]">
-                        <div class="absolute inset-0 rounded-2xl border border-white/50 pointer-events-none"></div>
-                    </div>
+                <div class="flex gap-3 items-center">
+                    <input 
+                        type="color" 
+                        wire:model.live="font_color" 
+                        class="w-10 h-10 rounded-lg border border-gray-300 cursor-pointer">
                     <input 
                         type="text" 
                         wire:model.live="font_color" 
                         placeholder="#ffffff" 
-                        class="flex-1 px-4 py-3 rounded-2xl bg-white/50 border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] focus:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff] focus:outline-none transition-all duration-300 font-mono text-slate-700">
+                        class="flex-1 px-3 py-2 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:outline-none transition-colors font-mono text-sm text-slate-700">
                 </div>
                 @error('font_color') 
                     <div class="text-red-500 text-sm font-medium mt-2 p-2 rounded-lg bg-red-50/50">{{ $message }}</div> 
