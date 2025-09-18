@@ -37,13 +37,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.mode !== currentMode) {
-                        console.log('Display mode changed from', currentMode, 'to', data.mode);
                         currentMode = data.mode;
-                        window.location.reload();
+                        updateDisplay(data.mode);
                     }
                 })
                 .catch(error => {
-                    console.error('Error checking display mode:', error);
+                    // Error checking display mode
                 });
         }, 10000); // Dikurangi dari 5000ms ke 10000ms
         
@@ -59,11 +58,9 @@
         
         // Listen untuk global custom event dari admin
         window.addEventListener('display-mode-changed', (event) => {
-            console.log('Display mode changed to:', event.detail.mode);
-            // Refresh halaman untuk menampilkan komponen yang benar
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
+            // Display mode changed event
+            currentMode = event.detail.mode;
+            updateDisplay(currentMode);
         });
         
         // Listen for force reload events via polling - dikurangi frekuensi
@@ -73,13 +70,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.timestamp > lastForceReloadCheck) {
-                        console.log('Force reload triggered from admin');
                         lastForceReloadCheck = data.timestamp;
                         window.location.reload();
                     }
                 })
                 .catch(error => {
-                    console.error('Error checking force reload status:', error);
+                    // Error checking force reload status
                 });
         }, 5000); // Dikurangi dari 3000ms ke 5000ms
         

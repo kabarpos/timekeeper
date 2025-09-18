@@ -29,13 +29,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.timestamp > lastForceReloadCheck) {
-                        console.log('Force reload triggered from admin');
                         lastForceReloadCheck = data.timestamp;
                         window.location.reload();
                     }
                 })
                 .catch(error => {
-                    console.error('Error checking force reload status:', error);
+                    // Error checking force reload status
                 });
         }, 5000); // Dikurangi dari 3000ms ke 5000ms
         

@@ -1,18 +1,6 @@
 <!-- Timer Control Card -->
 <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center space-x-3">
-            <div class="flex-shrink-0">
-                <span class="inline-flex justify-center items-center size-10 rounded-lg bg-blue-100 text-blue-600">
-                    <i class="fas fa-clock text-lg"></i>
-                </span>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold text-gray-800">Timer Control</h2>
-                <p class="text-sm text-gray-600">Kelola timer untuk tampilan publik</p>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Timer Display -->
     <div class="text-center mb-6">
