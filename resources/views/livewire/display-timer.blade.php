@@ -6,12 +6,12 @@
     <div class="text-center w-full max-w-4xl">
         <!-- Timer Display -->
         <div class="mb-8">
-            <div class="text-8xl md:text-9xl lg:text-[12rem] font-manrope font-bold leading-none mb-4 transition-all duration-300 {{ $is_warning ? 'animate-pulse text-red-400' : '' }}">
+            <div class="text-8xl md:text-9xl lg:text-[20rem] font-manrope font-bold leading-none mb-4 transition-all duration-300 {{ $is_warning ? 'animate-pulse text-red-400' : '' }}">
                 {{ $formatted_time }}
             </div>
             
             <!-- Status Text -->
-            <div class="text-2xl md:text-3xl font-manrope font-semibold opacity-80 mb-4 transition-all duration-300 {{ $timer && $timer->isRunning() ? 'text-green-400' : '' }}">
+            <div class="text-2xl md:text-4xl font-manrope font-semibold opacity-80 mb-4 transition-all duration-300 {{ $timer && $timer->isRunning() ? 'text-green-400' : '' }}">
                 {{ $status_text }}
             </div>
             

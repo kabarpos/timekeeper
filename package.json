@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "laravel-echo": "^2.2.0",
+        "preline": "^3.2.3",
         "pusher-js": "^8.4.0"
     }
 }

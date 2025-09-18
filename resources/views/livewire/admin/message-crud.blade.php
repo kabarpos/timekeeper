@@ -1,157 +1,156 @@
-<div class="space-y-8">
-    <!-- Neumorphic Message Form -->
-    <div class="p-8 rounded-3xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#bebebe,-12px_-12px_24px_#ffffff] border border-white/30">
-        <div class="flex items-center space-x-4 mb-8">
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-[8px_8px_16px_#3b82f6/30]">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                </svg>
+<div class="space-y-6">
+    <!-- Message Form -->
+    <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+        <div class="flex items-center gap-x-3 mb-6">
+            <div class="flex-shrink-0">
+                <span class="flex size-8 items-center justify-center rounded-lg bg-blue-600 text-white">
+                    <i class="fas fa-comment-alt flex-shrink-0 size-4"></i>
+                </span>
             </div>
-            <h2 class="text-3xl font-black bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">
-                {{ $editing_id ? 'Edit Pesan' : 'Tambah Pesan Baru' }}
-            </h2>
+            <div class="grow">
+                <h2 class="text-lg font-semibold text-gray-800">
+                    {{ $editing_id ? 'Edit Pesan' : 'Tambah Pesan Baru' }}
+                </h2>
+                <p class="text-sm text-gray-500">Kelola pesan yang akan ditampilkan</p>
+            </div>
         </div>
         
-        <form wire:submit.prevent="save" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-3">
-                    <label class="block text-sm font-bold text-slate-700">Judul Pesan</label>
+        <form wire:submit.prevent="save" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Judul Pesan</label>
                     <input 
                         type="text" 
+                        id="title"
                         wire:model="title" 
-                        class="w-full px-4 py-4 rounded-2xl bg-white/50 border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] focus:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff] focus:outline-none text-slate-700 font-medium placeholder-slate-400"
+                        class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                         placeholder="Masukkan judul pesan yang menarik...">
-                    @error('title') <span class="text-red-500 text-sm font-semibold">{{ $message }}</span> @enderror
+                    @error('title') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
                 </div>
                 
-                <div class="space-y-3">
-                    <label class="block text-sm font-bold text-slate-700">Tipe Pesan</label>
+                <div>
+                    <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Tipe Pesan</label>
                     <select 
+                        id="type"
                         wire:model="type" 
-                        class="w-full px-4 py-4 rounded-2xl bg-white/50 border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] focus:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff] focus:outline-none text-slate-700 font-medium cursor-pointer">
-                        <option value="short">📝 Pesan Pendek</option>
-                        <option value="long">📄 Pesan Panjang</option>
+                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                        <option value="short">Pesan Pendek</option>
+                        <option value="long">Pesan Panjang</option>
                     </select>
-                    @error('type') <span class="text-red-500 text-sm font-semibold">{{ $message }}</span> @enderror
+                    @error('type') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
                 </div>
             </div>
             
-            <div class="space-y-3">
-                <label class="block text-sm font-bold text-slate-700">Konten Pesan</label>
+            <div>
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Konten Pesan</label>
                 <textarea 
+                    id="content"
                     wire:model="content" 
                     rows="6" 
-                    class="w-full px-4 py-4 rounded-2xl bg-white/50 border-0 shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] focus:shadow-[inset_12px_12px_24px_#bebebe,inset_-12px_-12px_24px_#ffffff] focus:outline-none text-slate-700 font-medium placeholder-slate-400 resize-none"
+                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                     placeholder="Tulis konten pesan yang akan ditampilkan..."></textarea>
-                @error('content') <span class="text-red-500 text-sm font-semibold">{{ $message }}</span> @enderror
+                @error('content') <p class="text-sm text-red-600 mt-2">{{ $message }}</p> @enderror
             </div>
             
-            <div class="flex gap-4 pt-4">
+            <div class="flex gap-3 pt-4">
                 <button 
                     type="submit" 
-                    class="group flex-1 p-4 rounded-2xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#bebebe,-12px_-12px_24px_#ffffff] border border-white/30">
-                    <div class="flex items-center justify-center space-x-3">
-                        <div class="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-[4px_4px_8px_#3b82f6/30]">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                            </svg>
-                        </div>
-                        <span class="font-bold text-slate-700">{{ $editing_id ? '✏️ Update Pesan' : '💾 Simpan Pesan' }}</span>
-                    </div>
+                    class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <i class="fas fa-save flex-shrink-0 size-4"></i>
+                    {{ $editing_id ? 'Update Pesan' : 'Simpan Pesan' }}
                 </button>
                 
                 @if($editing_id)
                     <button 
                         type="button" 
                         wire:click="resetForm" 
-                        class="group p-4 rounded-2xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#bebebe,-12px_-12px_24px_#ffffff] border border-white/30">
-                        <div class="flex items-center justify-center space-x-3">
-                            <div class="p-2 rounded-xl bg-gradient-to-r from-gray-500 to-slate-600 text-white shadow-[4px_4px_8px_#6b7280/30]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </div>
-                            <span class="font-bold text-slate-700">❌ Batal</span>
-                        </div>
+                        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        <i class="fas fa-times flex-shrink-0 size-4"></i>
+                        Batal
                     </button>
                 @endif
             </div>
         </form>
     </div>
         
-    <!-- Neumorphic Messages List -->
-    <div class="p-8 rounded-3xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[12px_12px_24px_#bebebe,-12px_-12px_24px_#ffffff] border border-white/30">
-        <div class="flex items-center space-x-4 mb-8">
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-[8px_8px_16px_#a855f7/30]">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                </svg>
+    <!-- Messages List -->
+    <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+        <div class="flex items-center gap-x-3 mb-6">
+            <div class="flex-shrink-0">
+                <span class="flex size-8 items-center justify-center rounded-lg bg-purple-600 text-white">
+                    <i class="fas fa-list flex-shrink-0 size-4"></i>
+                </span>
             </div>
-            <h3 class="text-3xl font-black bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">Daftar Pesan</h3>
+            <div class="grow">
+                <h3 class="text-lg font-semibold text-gray-800">Daftar Pesan</h3>
+                <p class="text-sm text-gray-500">Kelola semua pesan yang tersedia</p>
+            </div>
         </div>
         
-        <div class="space-y-4">
+        <div class="space-y-3">
             @forelse($messages as $msg)
-                <div class="message-card p-6 rounded-2xl bg-gradient-to-br from-white/60 to-slate-50/60 backdrop-blur-sm shadow-[8px_8px_16px_#bebebe,-8px_-8px_16px_#ffffff] border border-white/40">
+                <div class="group border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
                     <div class="flex items-start justify-between">
-                        <div class="flex-1 space-y-3">
-                            <div class="flex items-center space-x-4">
-                                <h4 class="text-xl font-bold text-slate-800">{{ $msg->title ?: '📝 Tanpa Judul' }}</h4>
-                                <div class="flex space-x-2">
-                                    <span class="px-3 py-1 text-xs font-bold rounded-full shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.8)] border border-white/50
-                                        {{ $msg->type === 'short' ? 'bg-gradient-to-r from-blue-400 to-cyan-500 text-white' : 'bg-gradient-to-r from-purple-400 to-pink-500 text-white' }}">
-                                        {{ $msg->type === 'short' ? '📝 Pendek' : '📄 Panjang' }}
+                        <div class="flex-1">
+                            <div class="flex items-center gap-x-3 mb-2">
+                                <h4 class="text-sm font-semibold text-gray-800">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
+                                <div class="flex gap-x-2">
+                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
+                                        {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
                                     </span>
-                                    <span class="px-3 py-1 text-xs font-bold rounded-full shadow-[4px_4px_8px_rgba(0,0,0,0.1),-4px_-4px_8px_rgba(255,255,255,0.8)] border border-white/50
-                                        {{ $msg->is_active ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' : 'bg-gradient-to-r from-gray-400 to-slate-500 text-white' }}">
-                                        {{ $msg->is_active ? '✅ Aktif' : '⏸️ Tidak Aktif' }}
+                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $msg->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                        {{ $msg->is_active ? 'Aktif' : 'Tidak Aktif' }}
                                     </span>
                                 </div>
                             </div>
-                            <p class="text-slate-600 font-medium leading-relaxed">{{ Str::limit($msg->content, 120) }}</p>
+                            <p class="text-sm text-gray-600">{{ Str::limit($msg->content, 120) }}</p>
                         </div>
                         
-                        <div class="flex space-x-2 ml-6">
-                            <button 
-                                wire:click="activate({{ $msg->id }})" 
-                                class="group p-3 rounded-xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff] border border-white/30"
-                                title="Aktifkan Pesan">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </button>
+                        <div class="flex items-center gap-x-2 ml-4">
+                            <div class="hs-tooltip inline-block">
+                                <button 
+                                    wire:click="activate({{ $msg->id }})" 
+                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-green-600 hover:bg-green-100 focus:outline-none focus:bg-green-100 disabled:opacity-50 disabled:pointer-events-none">
+                                    <i class="fas fa-check flex-shrink-0 size-4"></i>
+                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
+                                        Aktifkan Pesan
+                                    </span>
+                                </button>
+                            </div>
                             
-                            <button 
-                                wire:click="edit({{ $msg->id }})" 
-                                class="group p-3 rounded-xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff] border border-white/30"
-                                title="Edit Pesan">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                            </button>
+                            <div class="hs-tooltip inline-block">
+                                <button 
+                                    wire:click="edit({{ $msg->id }})" 
+                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 disabled:opacity-50 disabled:pointer-events-none">
+                                    <i class="fas fa-edit flex-shrink-0 size-4"></i>
+                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
+                                        Edit Pesan
+                                    </span>
+                                </button>
+                            </div>
                             
-                            <button 
-                                wire:click="delete({{ $msg->id }})" 
-                                onclick="return confirm('🗑️ Yakin ingin menghapus pesan ini?')" 
-                                class="group p-3 rounded-xl bg-gradient-to-br from-white/80 to-slate-50/80 backdrop-blur-sm shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff] border border-white/30"
-                                title="Hapus Pesan">
-                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                            </button>
+                            <div class="hs-tooltip inline-block">
+                                <button 
+                                    wire:click="delete({{ $msg->id }})" 
+                                    onclick="return confirm('Yakin ingin menghapus pesan ini?')" 
+                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:bg-red-100 focus:outline-none focus:bg-red-100 disabled:opacity-50 disabled:pointer-events-none">
+                                    <i class="fas fa-trash flex-shrink-0 size-4"></i>
+                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
+                                        Hapus Pesan
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="p-12 rounded-2xl bg-gradient-to-br from-slate-50/60 to-white/60 backdrop-blur-sm shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] border border-white/40 text-center">
-                    <div class="space-y-4">
-                        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-400 to-slate-500 text-white shadow-[8px_8px_16px_#64748b/30] mx-auto w-fit">
-                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                            </svg>
+                <div class="text-center py-12">
+                    <div class="max-w-sm mx-auto">
+                        <div class="flex justify-center items-center size-16 bg-gray-100 rounded-full mx-auto mb-4">
+                            <i class="fas fa-inbox text-gray-400 text-2xl"></i>
                         </div>
-                        <h4 class="text-2xl font-bold text-slate-700">📭 Belum Ada Pesan</h4>
-                        <p class="text-slate-600 font-medium">Silakan tambah pesan baru menggunakan form di atas</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Belum Ada Pesan</h3>
+                        <p class="text-sm text-gray-500">Mulai buat pesan pertama Anda menggunakan form di atas!</p>
                     </div>
                 </div>
             @endforelse
@@ -159,65 +158,61 @@
     </div>
 </div>
     
-    <!-- Neumorphic Success/Error Messages -->
+    <!-- Success/Error Messages -->
     @if (session()->has('message'))
-        <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-emerald-50/80 to-green-50/80 backdrop-blur-sm shadow-[8px_8px_16px_rgba(34,197,94,0.2),-8px_-8px_16px_rgba(255,255,255,0.9)] border border-emerald-200/50">
-            <div class="flex items-center space-x-4">
-                <div class="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-[6px_6px_12px_rgba(34,197,94,0.3)]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+        <div class="fixed top-4 end-4 z-50 max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg" role="alert">
+            <div class="flex p-4">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
                 </div>
-                <p class="text-emerald-800 font-bold text-lg">✅ {{ session('message') }}</p>
+                <div class="ms-3">
+                    <p class="text-sm text-gray-700">
+                        {{ session('message') }}
+                    </p>
+                </div>
             </div>
         </div>
     @endif
 
     @if (session()->has('error'))
-        <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-red-50/80 to-rose-50/80 backdrop-blur-sm shadow-[8px_8px_16px_rgba(239,68,68,0.2),-8px_-8px_16px_rgba(255,255,255,0.9)] border border-red-200/50">
-            <div class="flex items-center space-x-4">
-                <div class="p-3 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[6px_6px_12px_rgba(239,68,68,0.3)]">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+        <div class="fixed top-4 end-4 z-50 max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg" role="alert">
+            <div class="flex p-4">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-500 mt-0.5"></i>
                 </div>
-                <p class="text-red-800 font-bold text-lg">❌ {{ session('error') }}</p>
+                <div class="ms-3">
+                    <p class="text-sm text-gray-700">
+                        {{ session('error') }}
+                    </p>
+                </div>
             </div>
         </div>
     @endif
 </div>
 
 <script>
-    // Simple interactions without animations
+    // Preline UI Interactions
     document.addEventListener('DOMContentLoaded', function() {
-        // Auto-hide success/error messages
-        const alerts = document.querySelectorAll('.animate-pulse');
-        alerts.forEach(alert => {
-            // Auto-hide after 6 seconds
-            setTimeout(() => {
-                if (alert.parentNode) {
-                    alert.remove();
-                }
-            }, 6000);
-        });
+        // Initialize tooltips if needed
+        if (typeof HSTooltip !== 'undefined') {
+            HSTooltip.autoInit();
+        }
         
-        // Basic CSS for hover effects only
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Basic hover effects */
-            .message-card:hover {
-                box-shadow: 20px 20px 40px #bebebe, -20px -20px 40px #ffffff;
-            }
-            
-            /* Form focus effects */
-            input:focus, textarea:focus, select:focus {
-                box-shadow: inset 8px 8px 16px #bebebe, inset -8px -8px 16px #ffffff, 0 0 0 3px rgba(59, 130, 246, 0.3);
-            }
-        `;
-        document.head.appendChild(style);
+        // Auto-hide alerts after 5 seconds
+        const alerts = document.querySelectorAll('[role="alert"]');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateX(100%)';
+                alert.style.transition = 'all 0.3s ease';
+                setTimeout(() => {
+                    alert.remove();
+                }, 300);
+            }, 5000);
+        });
     });
     
-    // Simple alert system without animations
+    // Livewire alert system
     window.addEventListener('livewire:init', () => {
         Livewire.on('show-alert', (event) => {
             const alertData = event[0] || event;
@@ -231,45 +226,31 @@
         existingAlerts.forEach(alert => alert.remove());
         
         const alert = document.createElement('div');
-        alert.className = `custom-alert fixed top-4 right-4 z-50 p-4 rounded-2xl shadow-[12px_12px_24px_#bebebe,-12px_-12px_24px_#ffffff] border border-white/30 backdrop-blur-sm max-w-md ${
-            type === 'success' 
-                ? 'bg-gradient-to-br from-emerald-50/90 to-green-50/90 border-emerald-200/50' 
-                : 'bg-gradient-to-br from-red-50/90 to-rose-50/90 border-red-200/50'
-        }`;
+        alert.className = 'custom-alert fixed top-4 end-4 z-50 max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg';
+        alert.setAttribute('role', 'alert');
+        
+        const iconClass = type === 'success' ? 'fas fa-check-circle text-green-500' : 'fas fa-exclamation-circle text-red-500';
         
         alert.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <div class="p-2 rounded-xl ${
-                    type === 'success' 
-                        ? 'bg-gradient-to-r from-emerald-500 to-green-600' 
-                        : 'bg-gradient-to-r from-red-500 to-rose-600'
-                } text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        ${
-                            type === 'success' 
-                                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
-                                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
-                        }
-                    </svg>
+            <div class="flex p-4">
+                <div class="flex-shrink-0">
+                    <i class="${iconClass} mt-0.5"></i>
                 </div>
-                <p class="font-bold ${
-                    type === 'success' ? 'text-emerald-800' : 'text-red-800'
-                }">${message}</p>
-                <button onclick="this.parentElement.parentElement.remove()" class="ml-auto p-1 rounded-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <div class="ms-3">
+                    <p class="text-sm text-gray-700">${message}</p>
+                </div>
             </div>
         `;
         
         document.body.appendChild(alert);
         
-        // Auto-hide after 6 seconds
         setTimeout(() => {
-            if (alert.parentNode) {
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateX(100%)';
+            alert.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
                 alert.remove();
-            }
-        }, 6000);
+            }, 300);
+        }, 3000);
     }
 </script>

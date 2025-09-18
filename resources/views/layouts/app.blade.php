@@ -17,6 +17,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Preline UI -->
+        <script src="{{ asset('node_modules/preline/dist/preline.js') }}"></script>
     </head>
     <body class="font-manrope antialiased">
         <div class="min-h-screen bg-brand-light">
