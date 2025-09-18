@@ -47,7 +47,7 @@
     @endif
     
     <!-- Keyboard Shortcuts Info -->
-    <div class="fixed bottom-4 right-4 text-sm opacity-40 hover:opacity-80 transition-opacity">
+    <div class="fixed bottom-4 right-4 text-sm opacity-40">
         <div class="bg-black bg-opacity-50 rounded-lg p-3">
             <div class="text-xs">
                 Tekan F11 untuk fullscreen
@@ -57,7 +57,7 @@
     
     <!-- Message Info (Bottom Left) -->
     @if($has_active_message && $message)
-        <div class="fixed bottom-4 left-4 text-sm opacity-40 hover:opacity-80 transition-opacity">
+        <div class="fixed bottom-4 left-4 text-sm opacity-40">
             <div class="bg-black bg-opacity-50 rounded-lg p-3">
                 <div class="text-xs">
                     ID: {{ $message->id }} | 
@@ -103,14 +103,9 @@
     </script>
 
     <style>
-        /* Custom animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
+        /* Static styles without animations */
         .message-content {
-            animation: fadeIn 0.8s ease-out;
+            /* No animation */
         }
         
         /* Responsive text scaling */

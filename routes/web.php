@@ -39,10 +39,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/messages', function () {
             return view('admin.messages');
         })->name('messages');
-        
-        Route::get('/settings', function () {
-            return view('admin.settings');
-        })->name('settings');
     });
 });
 

@@ -20,7 +20,7 @@
                         </div>
                         <h3 class="text-2xl font-bold bg-gradient-to-r from-slate-700 to-blue-600 bg-clip-text text-transparent">Quick Actions</h3>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <a href="{{ route('admin.timer') }}" class="group p-6 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-[12px_12px_24px_#3b82f6/30] hover:shadow-[16px_16px_32px_#3b82f6/40] transform hover:scale-105 transition-all duration-300">
                             <div class="text-3xl mb-3">⏱️</div>
                             <div class="font-manrope font-bold text-lg mb-2">Timer Control</div>
@@ -32,19 +32,42 @@
                             <div class="font-manrope font-bold text-lg mb-2">Messages</div>
                             <div class="text-sm opacity-90">Kelola pesan display</div>
                         </a>
-                        
-                        <a href="{{ route('admin.settings') }}" class="group p-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-[12px_12px_24px_#10b981/30] hover:shadow-[16px_16px_32px_#10b981/40] transform hover:scale-105 transition-all duration-300">
-                            <div class="text-3xl mb-3">⚙️</div>
-                            <div class="font-manrope font-bold text-lg mb-2">Settings</div>
-                            <div class="text-sm opacity-90">Pengaturan tampilan</div>
-                        </a>
                     </div>
                 </div>
             </div>
             
-
-            
-
+            <!-- Neumorphic Display Links -->
+            <div class="mb-12">
+                <div class="p-8 rounded-3xl bg-gradient-to-br from-white/90 to-slate-50/90 backdrop-blur-sm shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] border border-white/30 hover:shadow-[25px_25px_70px_#bebebe,-25px_-25px_70px_#ffffff] transition-all duration-500">
+                    <div class="flex items-center mb-6">
+                        <div class="p-3 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-[8px_8px_16px_#06b6d4/30] mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-slate-700 to-cyan-600 bg-clip-text text-transparent">Display Links</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <a href="{{ route('display.index') }}" target="_blank" class="group p-6 rounded-2xl bg-gradient-to-br from-slate-600 to-gray-700 text-white shadow-[12px_12px_24px_#475569/30] hover:shadow-[16px_16px_32px_#475569/40] transform hover:scale-105 transition-all duration-300">
+                            <div class="text-3xl mb-3">🖥️</div>
+                            <div class="font-manrope font-bold text-lg mb-2">Main Display</div>
+                            <div class="text-sm opacity-90">Display utama (auto switch)</div>
+                        </a>
+                        
+                        <a href="{{ route('display.timer') }}" target="_blank" class="group p-6 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 text-white shadow-[12px_12px_24px_#f97316/30] hover:shadow-[16px_16px_32px_#f97316/40] transform hover:scale-105 transition-all duration-300">
+                            <div class="text-3xl mb-3">⏰</div>
+                            <div class="font-manrope font-bold text-lg mb-2">Timer Only</div>
+                            <div class="text-sm opacity-90">Hanya tampilan timer</div>
+                        </a>
+                        
+                        <a href="{{ route('display.message') }}" target="_blank" class="group p-6 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-[12px_12px_24px_#8b5cf6/30] hover:shadow-[16px_16px_32px_#8b5cf6/40] transform hover:scale-105 transition-all duration-300">
+                            <div class="text-3xl mb-3">📝</div>
+                            <div class="font-manrope font-bold text-lg mb-2">Message Only</div>
+                            <div class="text-sm opacity-90">Hanya tampilan pesan</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
             
             <!-- Neumorphic Main Content Grid -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 items-stretch">
