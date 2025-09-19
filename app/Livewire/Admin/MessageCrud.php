@@ -14,9 +14,6 @@ class MessageCrud extends Component
     #[Validate('required|string')]
     public $content = '';
     
-    #[Validate('required|in:short,long')]
-    public $type = 'short';
-    
     #[Validate('required|string|regex:/^#[0-9A-Fa-f]{6}$/')]
     public $bg_color = '#000000';
     
@@ -48,7 +45,6 @@ class MessageCrud extends Component
             $message->update([
                 'title' => $this->title,
                 'content' => $this->content,
-                'type' => $this->type,
                 'bg_color' => $this->bg_color,
                 'font_color' => $this->font_color
             ]);
@@ -59,7 +55,6 @@ class MessageCrud extends Component
             Message::create([
                 'title' => $this->title,
                 'content' => $this->content,
-                'type' => $this->type,
                 'bg_color' => $this->bg_color,
                 'font_color' => $this->font_color,
                 'is_active' => false
@@ -82,7 +77,6 @@ class MessageCrud extends Component
         $this->editing_id = $id;
         $this->title = $message->title;
         $this->content = $message->content;
-        $this->type = $message->type;
         $this->bg_color = $message->bg_color;
         $this->font_color = $message->font_color;
     }
@@ -115,7 +109,6 @@ class MessageCrud extends Component
             'message_id' => $id,
             'title' => $activeMessage->title,
             'content' => $activeMessage->content,
-            'type' => $activeMessage->type,
             'bg_color' => $activeMessage->bg_color,
             'font_color' => $activeMessage->font_color
         ])->to('display-message');
@@ -129,7 +122,6 @@ class MessageCrud extends Component
         $this->editing_id = null;
         $this->title = '';
         $this->content = '';
-        $this->type = 'short';
         $this->bg_color = '#000000';
         $this->font_color = '#ffffff';
     }

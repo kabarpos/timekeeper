@@ -75,9 +75,7 @@
                 case 'r': // R - Reset
                 case 'R':
                     e.preventDefault();
-                    if (confirm('Reset timer?')) {
-                        Livewire.dispatch('reset-timer');
-                    }
+                    Livewire.dispatch('reset-timer');
                     break;
                 case 'm': // M - Switch to message
                 case 'M':

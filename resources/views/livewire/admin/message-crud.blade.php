@@ -12,29 +12,15 @@
         </div>
 
         <form wire:submit.prevent="save" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">Judul Pesan</label>
-                    <input 
-                        type="text" 
-                        id="title"
-                        wire:model="title" 
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
-                        placeholder="Masukkan judul pesan...">
-                    @error('title') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
-                </div>
-                
-                <div>
-                    <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">Tipe Pesan</label>
-                    <select 
-                        id="type"
-                        wire:model="type" 
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200">
-                        <option value="short">Pesan Pendek</option>
-                        <option value="long">Pesan Panjang</option>
-                    </select>
-                    @error('type') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
-                </div>
+            <div>
+                <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">Judul Pesan</label>
+                <input 
+                    type="text" 
+                    id="title"
+                    wire:model="title" 
+                    class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                    placeholder="Masukkan judul pesan...">
+                @error('title') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
             </div>
 
             <div>
@@ -44,7 +30,7 @@
                     wire:model="content" 
                     rows="4" 
                     class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 resize-none"
-                    placeholder="Tulis konten pesan..."></textarea>
+                    placeholder="Masukkan konten pesan..."></textarea>
                 @error('content') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
             </div>
             
@@ -91,10 +77,6 @@
                             <div class="flex items-center gap-3 mb-2">
                                 <h4 class="text-base font-semibold text-gray-900 truncate">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
                                 <div class="flex items-center gap-2">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-700 border border-blue-200' : 'bg-purple-100 text-purple-700 border border-purple-200' }}">
-                                        <i class="fas {{ $msg->type === 'short' ? 'fa-comment' : 'fa-comment-alt' }} text-xs mr-1"></i>
-                                        {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
-                                    </span>
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $msg->is_active ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-600 border border-gray-200' }}">
                                         <i class="fas {{ $msg->is_active ? 'fa-check-circle' : 'fa-pause-circle' }} text-xs mr-1"></i>
                                         {{ $msg->is_active ? 'Aktif' : 'Tidak Aktif' }}
@@ -140,7 +122,6 @@
                             <div class="relative group/tooltip">
                                 <button 
                                     wire:click="delete({{ $msg->id }})" 
-                                    onclick="return confirm('Yakin ingin menghapus pesan ini?')" 
                                     class="w-9 h-9 inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:bg-red-100 focus:outline-none focus:bg-red-100 transition-all duration-200">
                                     <i class="fas fa-trash text-sm"></i>
                                 </button>

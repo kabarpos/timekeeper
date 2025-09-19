@@ -6,31 +6,27 @@
     @endif
 >
     @if($message && $message->is_active)
-        <div class="text-center max-w-4xl mx-auto px-8">
-            <h1 class="text-6xl font-bold mb-8 animate-pulse">
+        <div class="text-center max-w-6xl mx-auto px-8">
+            {{-- Judul dengan ukuran responsif yang lebih besar untuk desktop XL+ --}}
+            <h1 class="font-bold mb-8 animate-pulse leading-tight
+                text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">
                 {{ $message->title }}
             </h1>
             
-            <div class="text-2xl leading-relaxed mb-8">
+            {{-- Konten pesan dengan ukuran optimal untuk semua layar --}}
+            <div class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 
+                leading-relaxed mb-8 max-w-5xl mx-auto">
                 {!! nl2br(e($message->content)) !!}
             </div>
-            
-            @if($message->type)
-                <div class="inline-flex items-center px-6 py-3 rounded-full text-lg font-semibold
-                    @if($message->type === 'info') bg-blue-600 text-blue-100
-                    @elseif($message->type === 'warning') bg-yellow-600 text-yellow-100
-                    @elseif($message->type === 'success') bg-green-600 text-green-100
-                    @elseif($message->type === 'error') bg-red-600 text-red-100
-                    @else bg-gray-600 text-gray-100
-                    @endif">
-                    {{ ucfirst($message->type) }}
-                </div>
-            @endif
         </div>
     @else
         <div class="text-center">
-            <h1 class="text-4xl font-bold mb-4">Tidak Ada Pesan Aktif</h1>
-            <p class="text-xl opacity-75">Menunggu pesan dari admin...</p>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4">
+                Tidak Ada Pesan Aktif
+            </h1>
+            <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl opacity-75">
+                Menunggu pesan dari admin...
+            </p>
         </div>
     @endif
 </div>

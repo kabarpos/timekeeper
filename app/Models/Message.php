@@ -10,7 +10,6 @@ class Message extends Model
         'title',
         'content',
         'is_active',
-        'type',
         'bg_color',
         'font_color'
     ];
@@ -24,23 +23,21 @@ class Message extends Model
         return $query->where('is_active', true);
     }
 
-    public function scopeShort($query)
+    /**
+     * Determine if the message is short based on content length
+     * Short messages are considered to be 100 characters or less
+     */
+    public function isShort()
     {
-        return $query->where('type', 'short');
+        return strlen($this->content) <= 100;
     }
 
-    public function scopeLong($query)
+    /**
+     * Determine if the message is long based on content length
+     * Long messages are considered to be more than 100 characters
+     */
+    public function isLong()
     {
-        return $query->where('type', 'long');
-    }
-
-    public function isShort(): bool
-    {
-        return $this->type === 'short';
-    }
-
-    public function isLong(): bool
-    {
-        return $this->type === 'long';
+        return strlen($this->content) > 100;
     }
 }

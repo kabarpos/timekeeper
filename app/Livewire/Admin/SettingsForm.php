@@ -38,7 +38,7 @@ class SettingsForm extends Component
         $this->recent_messages = CacheService::remember(
             CacheService::RECENT_MESSAGES_KEY,
             function () {
-                return Message::select(['id', 'title', 'content', 'is_active', 'type', 'created_at'])
+                return Message::select(['id', 'title', 'content', 'is_active', 'created_at'])
                     ->orderBy('created_at', 'desc')
                     ->limit(5)
                     ->get();

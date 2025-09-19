@@ -74,31 +74,8 @@
         
         // Fungsi untuk update display berdasarkan mode
         function updateDisplay(mode) {
-            console.log('Updating display to mode:', mode);
-            
-            // Hapus semua komponen yang ada
-            const timerDisplay = document.getElementById('timer-display');
-            const messageDisplay = document.getElementById('message-display');
-            
-            if (mode === 'timer') {
-                // Tampilkan timer, sembunyikan message
-                if (timerDisplay) timerDisplay.style.display = 'block';
-                if (messageDisplay) messageDisplay.style.display = 'none';
-                
-                // Reload halaman untuk memuat komponen timer yang fresh
-                setTimeout(() => {
-                    window.location.href = '/display/timer';
-                }, 100);
-            } else if (mode === 'message') {
-                // Tampilkan message, sembunyikan timer
-                if (messageDisplay) messageDisplay.style.display = 'block';
-                if (timerDisplay) timerDisplay.style.display = 'none';
-                
-                // Reload halaman untuk memuat komponen message yang fresh
-                setTimeout(() => {
-                    window.location.href = '/display/message';
-                }, 100);
-            }
+            // Reload halaman untuk memuat komponen yang sesuai dengan mode baru
+            window.location.reload();
         }
         
         // Listen untuk global custom event dari admin

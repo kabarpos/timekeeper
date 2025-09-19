@@ -88,14 +88,13 @@
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-3 mb-3">
-                                    
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $message->type === 'short' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800' }}">
-                                        <i class="fas {{ $message->type === 'short' ? 'fa-bolt' : 'fa-clock' }} mr-1"></i>
-                                        {{ ucfirst($message->type) }}
-                                    </span>
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $message->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
                                         <div class="w-2 h-2 rounded-full {{ $message->is_active ? 'bg-green-500' : 'bg-gray-500' }} mr-2"></div>
                                         {{ $message->is_active ? 'Aktif' : 'Nonaktif' }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-calendar mr-1"></i>
+                                        {{ $message->created_at->format('d M Y, H:i') }}
                                     </span>
                                 </div>
                                 <h4 class="text-lg font-bold text-gray-900 mb-2">{{ $message->title ?: 'Tanpa Judul' }}</h4>

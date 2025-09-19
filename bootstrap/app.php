@@ -48,8 +48,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], $e->getCode() ?: 500);
             }
             
-            // Untuk web request, redirect dengan error message
-            return redirect()->back()->with('error', $e->getMessage());
+            // Untuk web request, tampilkan error page untuk menghindari redirect loop
+            return response()->view('errors.500', ['exception' => $e], 500);
         });
         
         // Handle database connection errors
@@ -67,25 +67,26 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 500);
             }
             
-            return redirect()->back()->with('error', 'Terjadi kesalahan database. Silakan coba lagi.');
+            // Tampilkan error page untuk menghindari redirect loop
+            return response()->view('errors.500', ['exception' => $e], 500);
         });
         
-        // Handle general exceptions
-        $exceptions->render(function (\Exception $e, $request) {
-            \Illuminate\Support\Facades\Log::error('Unhandled Exception', [
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'error' => 'An unexpected error occurred',
-                    'message' => config('app.debug') ? $e->getMessage() : 'Internal server error'
-                ], 500);
-            }
-            
-            return redirect()->back()->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi.');
-        });
+        // Handle general exceptions - hapus handler ini untuk menggunakan default Laravel
+        // $exceptions->render(function (\Exception $e, $request) {
+        //     \Illuminate\Support\Facades\Log::error('Unhandled Exception', [
+        //         'message' => $e->getMessage(),
+        //         'file' => $e->getFile(),
+        //         'line' => $e->getLine(),
+        //         'trace' => $e->getTraceAsString()
+        //     ]);
+        //     
+        //     if ($request->expectsJson()) {
+        //         return response()->json([
+        //             'error' => 'An unexpected error occurred',
+        //             'message' => config('app.debug') ? $e->getMessage() : 'Internal server error'
+        //         ], 500);
+        //     }
+        //     
+        //     return redirect()->back()->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi.');
+        // });
     })->create();

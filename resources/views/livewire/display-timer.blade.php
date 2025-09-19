@@ -4,37 +4,37 @@
     @if($timer && $timer->isRunning()) wire:poll.1000ms="updateTimeDisplay" @endif>
     
     <div class="text-center w-full max-w-4xl">
+
+         <!-- Additional Info -->
+        @if($timer && $timer->status !== 'stopped')
+            <div class="text-5xl font-manrope uppercase">
+                @if($timer->isRunning())
+                    Sisa Waktu
+                @elseif($timer->isPaused())
+                    Timer dijeda
+                @endif
+            </div>
+        @endif
+
         <!-- Timer Display -->
         <div class="mb-8">
             <div class="text-8xl md:text-9xl lg:text-[20rem] font-manrope font-bold leading-none mb-4 transition-all duration-300 {{ $is_warning ? 'animate-pulse text-red-400' : '' }}">
                 {{ $formatted_time }}
             </div>
             
-            <!-- Status Text -->
-            <div class="text-2xl md:text-4xl font-manrope font-semibold opacity-80 mb-4 transition-all duration-300 {{ $timer && $timer->isRunning() ? 'text-green-400' : '' }}">
-                {{ $status_text }}
-            </div>
+
             
             <!-- Warning Indicator -->
             @if($is_warning)
                 <div class="animate-bounce">
-                    <div class="text-xl md:text-2xl font-manrope font-bold text-red-500 bg-red-100 bg-opacity-90 text-red-800 rounded-lg px-6 py-3 inline-block shadow-lg border-2 border-red-400">
+                    <div class="text-5xl font-manrope font-bold text-red-500 bg-red-100 bg-opacity-90 text-red-800 rounded-lg px-6 py-3 inline-block shadow-lg border-2 border-red-400">
                         ⚠️ WAKTU HAMPIR HABIS!
                     </div>
                 </div>
             @endif
         </div>
         
-        <!-- Additional Info -->
-        @if($timer && $timer->status !== 'stopped')
-            <div class="text-lg md:text-xl font-manrope opacity-60">
-                @if($timer->isRunning())
-                    Timer sedang berjalan...
-                @elseif($timer->isPaused())
-                    Timer dijeda
-                @endif
-            </div>
-        @endif
+       
         
         <!-- Progress Bar (Optional) -->
         @if($timer && $timer->duration_seconds > 0)
