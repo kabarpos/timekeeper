@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('messages', function (Blueprint $table) {
-            // Drop index first if exists
-            $table->dropIndex(['type']);
-            // Then drop the column
-            $table->dropColumn('type');
+            // Check if column exists before dropping
+            if (Schema::hasColumn('messages', 'type')) {
+                // No need to drop index since it was never created in the original migration
+                // Just drop the column directly
+                $table->dropColumn('type');
+            }
         });
     }
 
@@ -25,8 +27,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->enum('type', ['short', 'long'])->default('short')->after('content');
-            $table->index('type');
+            // Check if column doesn't exist before adding
+            if (!Schema::hasColumn('messages', 'type')) {
+                $table->enum('type', ['short', 'long'])->default('short')->after('content');
+                // No index added to match original migration structure
+            }
         });
     }
 };
