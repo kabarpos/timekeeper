@@ -13,12 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'role' => 'admin',
+        // Call AdminUserSeeder to create admin user
+        $this->call([
+            AdminUserSeeder::class,
         ]);
+
+        // Optional: Create additional test users for development
+        if (app()->environment('local', 'testing')) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'role' => 'user',
+            ]);
+        }
     }
 }
