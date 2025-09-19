@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         // Optional: Create additional test users for development
         if (app()->environment('local', 'testing')) {
             User::factory()->create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+                'name' => 'Staff',
+                'email' => 'user@kirim.biz.id',
                 'role' => 'user',
             ]);
         }

@@ -13,6 +13,36 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // 1. Check for sensitive data in URL parameters FIRST
+        $sensitiveParams = ['password', 'password_confirmation'];
+        $hasSensitiveData = false;
+        
+        foreach ($sensitiveParams as $param) {
+            if ($request->has($param)) {
+                $hasSensitiveData = true;
+                
+                // Log security incident
+                \Log::warning('Security Alert: Sensitive parameter in URL', [
+                    'parameter' => $param,
+                    'url' => $request->fullUrl(),
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'referer' => $request->header('referer'),
+                    'timestamp' => now()
+                ]);
+            }
+        }
+        
+        // If sensitive data found in URL, redirect to clean URL
+        if ($hasSensitiveData) {
+            $cleanUrl = $request->url();
+            
+            return redirect($cleanUrl)->with([
+                'error' => 'Invalid request detected. Please try again.',
+                'security_alert' => true
+            ]);
+        }
+        
         $response = $next($request);
         
         // Skip CSP for development debugging

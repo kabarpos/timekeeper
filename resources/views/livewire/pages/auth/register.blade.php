@@ -38,7 +38,8 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="register">
+    <form wire:submit="register" method="POST">
+        @csrf
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

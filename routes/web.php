@@ -34,6 +34,57 @@ Route::get('/test-tailwind', function () {
     return view('test-tailwind');
 })->name('test.tailwind');
 
+// Debug routes untuk production troubleshooting
+Route::post('/debug-form-test', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Form submission working correctly',
+        'method' => request()->method(),
+        'data' => request()->all(),
+        'headers' => [
+            'csrf' => request()->header('X-CSRF-TOKEN'),
+            'ajax' => request()->header('X-Requested-With'),
+        ]
+    ]);
+})->name('debug.form.test');
+
+// Security middleware untuk mencegah sensitive data di URL
+Route::middleware(['web'])->group(function () {
+    Route::get('/register', function () {
+        // Block jika ada sensitive data di URL
+        if (request()->has(['password', 'password_confirmation', 'email'])) {
+            // Log security incident
+            \Log::warning('Security: Sensitive data in URL', [
+                'url' => request()->fullUrl(),
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent()
+            ]);
+            
+            // Redirect ke clean URL
+            return redirect()->route('register')->with('error', 'Invalid request. Please try again.');
+        }
+        
+        return app(\Livewire\Volt\Volt::class)->route('pages.auth.register');
+    })->name('register');
+    
+    Route::get('/login', function () {
+        // Block jika ada sensitive data di URL
+        if (request()->has(['password', 'email'])) {
+            // Log security incident
+            \Log::warning('Security: Sensitive data in URL', [
+                'url' => request()->fullUrl(),
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent()
+            ]);
+            
+            // Redirect ke clean URL
+            return redirect()->route('login')->with('error', 'Invalid request. Please try again.');
+        }
+        
+        return app(\Livewire\Volt\Volt::class)->route('pages.auth.login');
+    })->name('login');
+});
+
 // Admin routes - Protected dengan auth middleware
 Route::middleware(['auth', 'verified'])->group(function () {
     // Redirect dashboard to admin
