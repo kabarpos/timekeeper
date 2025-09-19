@@ -1,58 +1,68 @@
-<div class="space-y-4">
+<div class="space-y-6">
     <!-- Message Form -->
-    <div class="space-y-4">
-        <form wire:submit.prevent="save" class="space-y-3">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-plus text-white text-sm"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-gray-900">{{ $editing_id ? 'Edit Pesan' : 'Buat Pesan Baru' }}</h3>
+                <p class="text-sm text-gray-600">{{ $editing_id ? 'Perbarui informasi pesan' : 'Tambahkan pesan baru ke sistem' }}</p>
+            </div>
+        </div>
+
+        <form wire:submit.prevent="save" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul Pesan</label>
+                    <label for="title" class="block text-sm font-semibold text-gray-700 mb-2">Judul Pesan</label>
                     <input 
                         type="text" 
                         id="title"
                         wire:model="title" 
-                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
                         placeholder="Masukkan judul pesan...">
-                    @error('title') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                    @error('title') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
                 </div>
                 
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Tipe Pesan</label>
+                    <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">Tipe Pesan</label>
                     <select 
                         id="type"
                         wire:model="type" 
-                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200">
                         <option value="short">Pesan Pendek</option>
                         <option value="long">Pesan Panjang</option>
                     </select>
-                    @error('type') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                    @error('type') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
                 </div>
             </div>
-            
+
             <div>
-                <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Konten Pesan</label>
+                <label for="content" class="block text-sm font-semibold text-gray-700 mb-2">Konten Pesan</label>
                 <textarea 
                     id="content"
                     wire:model="content" 
                     rows="4" 
-                    class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                    class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 resize-none"
                     placeholder="Tulis konten pesan..."></textarea>
-                @error('content') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                @error('content') <p class="text-xs text-red-600 mt-1 flex items-center gap-1"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p> @enderror
             </div>
             
-            <div class="flex gap-2 pt-2">
+            <div class="flex gap-3 pt-2">
                 <button 
                     type="submit" 
-                    class="py-2 px-3 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
-                    <i class="fas fa-save text-xs mr-1"></i>
-                    {{ $editing_id ? 'Update' : 'Simpan' }}
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-save text-sm"></i>
+                    {{ $editing_id ? 'Update Pesan' : 'Simpan Pesan' }}
                 </button>
                 
                 @if($editing_id)
                     <button 
                         type="button" 
                         wire:click="resetForm" 
-                        class="py-2 px-3 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
-                        <i class="fas fa-times text-xs mr-1"></i>
-                        Batal
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 shadow-sm">
+                        <i class="fas fa-times text-sm"></i>
+                        Batal Edit
                     </button>
                 @endif
             </div>
@@ -60,77 +70,95 @@
     </div>
         
     <!-- Messages List -->
-    <div class="space-y-3">
-        <div class="flex items-center gap-x-2 mb-3">
-            <div class="flex-shrink-0 size-6 bg-purple-600 text-white rounded flex items-center justify-center">
-                <i class="fas fa-list text-xs"></i>
+    <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-xl rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-list text-white text-sm"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900">Daftar Pesan</h3>
+                    <p class="text-sm text-gray-600">Total: {{ count($messages) }} pesan</p>
+                </div>
             </div>
-            <h3 class="text-sm font-medium text-gray-800">Daftar Pesan ({{ count($messages) }})</h3>
         </div>
         
-        <div class="space-y-2">
+        <div class="space-y-3">
             @forelse($messages as $msg)
-                <div class="border border-gray-200 rounded-lg p-3 hover:shadow-sm transition-shadow">
+                <div class="group bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-gray-300 transition-all duration-200">
                     <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-x-2 mb-1">
-                                <h4 class="text-sm font-medium text-gray-800">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
-                                    {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
-                                </span>
-                                    <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $msg->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h4 class="text-base font-semibold text-gray-900 truncate">{{ $msg->title ?: 'Tanpa Judul' }}</h4>
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $msg->type === 'short' ? 'bg-blue-100 text-blue-700 border border-blue-200' : 'bg-purple-100 text-purple-700 border border-purple-200' }}">
+                                        <i class="fas {{ $msg->type === 'short' ? 'fa-comment' : 'fa-comment-alt' }} text-xs mr-1"></i>
+                                        {{ $msg->type === 'short' ? 'Pendek' : 'Panjang' }}
+                                    </span>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $msg->is_active ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-600 border border-gray-200' }}">
+                                        <i class="fas {{ $msg->is_active ? 'fa-check-circle' : 'fa-pause-circle' }} text-xs mr-1"></i>
                                         {{ $msg->is_active ? 'Aktif' : 'Tidak Aktif' }}
                                     </span>
                                 </div>
                             </div>
-                            <p class="text-sm text-gray-600">{{ Str::limit($msg->content, 120) }}</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">{{ Str::limit($msg->content, 150) }}</p>
+                            <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                                <span class="flex items-center gap-1">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $msg->created_at->format('d M Y') }}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fas fa-clock"></i>
+                                    {{ $msg->created_at->format('H:i') }}
+                                </span>
+                            </div>
                         </div>
                         
-                        <div class="flex items-center gap-x-2 ml-4">
-                            <div class="hs-tooltip inline-block">
+                        <div class="flex items-center gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <div class="relative group/tooltip">
                                 <button 
                                     wire:click="activate({{ $msg->id }})" 
-                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-green-600 hover:bg-green-100 focus:outline-none focus:bg-green-100 disabled:opacity-50 disabled:pointer-events-none">
-                                    <i class="fas fa-check flex-shrink-0 size-4"></i>
-                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
-                                        Aktifkan Pesan
-                                    </span>
+                                    class="w-9 h-9 inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-green-600 hover:bg-green-100 focus:outline-none focus:bg-green-100 transition-all duration-200">
+                                    <i class="fas fa-check text-sm"></i>
                                 </button>
+                                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                                    Aktifkan Pesan
+                                </div>
                             </div>
                             
-                            <div class="hs-tooltip inline-block">
+                            <div class="relative group/tooltip">
                                 <button 
                                     wire:click="edit({{ $msg->id }})" 
-                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 disabled:opacity-50 disabled:pointer-events-none">
-                                    <i class="fas fa-edit flex-shrink-0 size-4"></i>
-                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
-                                        Edit Pesan
-                                    </span>
+                                    class="w-9 h-9 inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 transition-all duration-200">
+                                    <i class="fas fa-edit text-sm"></i>
                                 </button>
+                                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                                    Edit Pesan
+                                </div>
                             </div>
                             
-                            <div class="hs-tooltip inline-block">
+                            <div class="relative group/tooltip">
                                 <button 
                                     wire:click="delete({{ $msg->id }})" 
                                     onclick="return confirm('Yakin ingin menghapus pesan ini?')" 
-                                    class="hs-tooltip-toggle size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:bg-red-100 focus:outline-none focus:bg-red-100 disabled:opacity-50 disabled:pointer-events-none">
-                                    <i class="fas fa-trash flex-shrink-0 size-4"></i>
-                                    <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
-                                        Hapus Pesan
-                                    </span>
+                                    class="w-9 h-9 inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:bg-red-100 focus:outline-none focus:bg-red-100 transition-all duration-200">
+                                    <i class="fas fa-trash text-sm"></i>
                                 </button>
+                                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                                    Hapus Pesan
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="text-center py-12">
+                <div class="text-center py-16">
                     <div class="max-w-sm mx-auto">
-                        <div class="flex justify-center items-center size-16 bg-gray-100 rounded-full mx-auto mb-4">
-                            <i class="fas fa-inbox text-gray-400 text-2xl"></i>
+                        <div class="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                            <i class="fas fa-inbox text-gray-400 text-3xl"></i>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Belum Ada Pesan</h3>
-                        <p class="text-sm text-gray-500">Mulai buat pesan pertama Anda menggunakan form di atas!</p>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Belum Ada Pesan</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Mulai buat pesan pertama Anda menggunakan form di atas untuk menampilkan konten ke layar display!</p>
                     </div>
                 </div>
             @endforelse

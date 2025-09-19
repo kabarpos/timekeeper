@@ -88,7 +88,7 @@
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-4 h-4 rounded-full shadow-sm" style="background-color: {{ $message->bg_color }}"></div>
+                                    
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $message->type === 'short' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800' }}">
                                         <i class="fas {{ $message->type === 'short' ? 'fa-bolt' : 'fa-clock' }} mr-1"></i>
                                         {{ ucfirst($message->type) }}
