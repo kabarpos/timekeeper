@@ -6,9 +6,16 @@ use App\Models\Message;
 use App\Models\Setting;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Cache;
+use App\Services\CacheService;
+use App\Exceptions\DatabaseException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
+use App\Traits\HandlesErrors;
 
 class DisplayMessage extends Component
 {
+    use HandlesErrors;
     // Hindari properti publik untuk model Eloquent karena menyebabkan error array_merge() saat validasi
     private $message;
     private $setting;
@@ -22,7 +29,30 @@ class DisplayMessage extends Component
     public function getMessage()
     {
         if (!$this->message) {
-            $this->message = Message::where('is_active', true)->first();
+            try {
+                // Cache active message untuk mengurangi query berulang
+                $this->message = CacheService::remember(
+                    CacheService::ACTIVE_MESSAGE_KEY,
+                    function () {
+                        return Message::select(['id', 'title', 'content', 'type', 'bg_color', 'font_color'])
+                            ->where('is_active', true)
+                            ->first();
+                    }
+                );
+            } catch (QueryException $e) {
+                Log::error('Database error saat mengambil active message', [
+                    'error' => $e->getMessage(),
+                    'sql' => $e->getSql()
+                ]);
+                // Return null jika ada error database
+                $this->message = null;
+            } catch (\Exception $e) {
+                Log::error('Error tidak terduga saat mengambil active message', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                $this->message = null;
+            }
         }
         return $this->message;
     }
@@ -30,7 +60,49 @@ class DisplayMessage extends Component
     public function getSetting()
     {
         if (!$this->setting) {
-            $this->setting = Setting::current();
+            try {
+                // Cache setting untuk mengurangi query berulang
+                $this->setting = CacheService::remember(
+                    CacheService::CURRENT_SETTING_KEY,
+                    function () {
+                        $setting = Setting::select(['id', 'bg_color', 'font_color', 'display_mode'])->first();
+                        
+                        if (!$setting) {
+                            // Create default setting jika belum ada
+                            $setting = Setting::create([
+                                'bg_color' => '#000000',
+                                'font_color' => '#ffffff',
+                                'display_mode' => 'timer'
+                            ]);
+                        }
+                        
+                        return $setting;
+                    }
+                );
+            } catch (QueryException $e) {
+                Log::error('Database error saat mengambil setting', [
+                    'error' => $e->getMessage(),
+                    'sql' => $e->getSql()
+                ]);
+                // Return default setting jika ada error database
+                $this->setting = (object) [
+                    'id' => null,
+                    'bg_color' => '#000000',
+                    'font_color' => '#ffffff',
+                    'display_mode' => 'timer'
+                ];
+            } catch (\Exception $e) {
+                Log::error('Error tidak terduga saat mengambil setting', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                $this->setting = (object) [
+                    'id' => null,
+                    'bg_color' => '#000000',
+                    'font_color' => '#ffffff',
+                    'display_mode' => 'timer'
+                ];
+            }
         }
         return $this->setting;
     }
@@ -111,6 +183,10 @@ class DisplayMessage extends Component
     #[On('message-status-changed')]
     public function onMessageStatusChanged($data)
     {
+        // Clear cache ketika status message berubah
+        CacheService::forget(CacheService::ACTIVE_MESSAGE_KEY);
+        $this->message = null;
+        
         // Reload data ketika status message berubah
         $this->loadData();
         
@@ -119,6 +195,15 @@ class DisplayMessage extends Component
             $this->has_active_message = false;
             $this->message = null;
         }
+    }
+    
+    #[On('setting-updated')]
+    public function refreshSetting()
+    {
+        // Clear cache ketika setting berubah
+        CacheService::forget(CacheService::CURRENT_SETTING_KEY);
+        $this->setting = null;
+        $this->loadData();
     }
     
     #[On('display-mode-changed')]

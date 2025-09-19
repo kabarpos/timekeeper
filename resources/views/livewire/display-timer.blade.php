@@ -127,15 +127,7 @@
             if (clientRemainingSeconds <= 0) {
                 stopClientTimer();
                 if (!hasNotifiedFinished) {
-                    // Browser notification
-                    if (Notification.permission === 'granted') {
-                        new Notification('⏰ Timer Selesai!', {
-                            body: 'Waktu presentasi telah habis.',
-                            icon: '/favicon.ico'
-                        });
-                    }
-                    
-                    // Visual flash effect
+                    // Visual flash effect only (no annoying popup)
                     document.body.style.animation = 'flash 0.5s ease-in-out 3';
                     setTimeout(() => {
                         document.body.style.animation = '';
@@ -179,12 +171,88 @@
             }
         }
         
+        // Timer status polling variables
+        let timerPollingInterval = null;
+        let lastKnownStatus = '{{ $timer ? $timer->status : "stopped" }}';
+        let lastKnownRemaining = {{ $timer ? $timer->remaining_seconds : 0 }};
+        let pollingFrequency = 2000; // 2 seconds
+        
+        // Function to poll timer status from API
+        function pollTimerStatus() {
+            fetch('/api/current-timer-status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'no_timer') {
+                        return;
+                    }
+                    
+                    // Check if status changed
+                    if (data.status !== lastKnownStatus || Math.abs(data.remaining_seconds - lastKnownRemaining) > 2) {
+                        lastKnownStatus = data.status;
+                        lastKnownRemaining = data.remaining_seconds;
+                        
+                        // Update display based on new status
+                        if (data.status === 'running') {
+                            startClientTimer(data.remaining_seconds);
+                        } else if (data.status === 'paused' || data.status === 'stopped') {
+                            stopClientTimer();
+                            clientRemainingSeconds = data.remaining_seconds;
+                            
+                            // Update display immediately
+                            const minutes = Math.floor(data.remaining_seconds / 60);
+                            const seconds = data.remaining_seconds % 60;
+                            const formattedTime = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+                            
+                            const timerElement = document.querySelector('.text-8xl');
+                            if (timerElement) {
+                                timerElement.textContent = formattedTime;
+                            }
+                            
+                            // Update status text
+                            const statusElement = document.querySelector('.text-2xl.font-semibold');
+                            if (statusElement) {
+                                if (data.status === 'paused') {
+                                    statusElement.textContent = 'Dijeda';
+                                } else if (data.status === 'stopped') {
+                                    statusElement.textContent = data.remaining_seconds <= 0 ? 'Waktu Habis!' : 'Timer Siap';
+                                }
+                            }
+                        }
+                        
+                        // Trigger Livewire refresh to sync server state
+                        Livewire.dispatch('refresh');
+                    }
+                })
+                .catch(error => {
+                    console.log('Timer polling error:', error);
+                });
+        }
+        
+        // Start timer status polling
+        function startTimerPolling() {
+            if (timerPollingInterval) {
+                clearInterval(timerPollingInterval);
+            }
+            timerPollingInterval = setInterval(pollTimerStatus, pollingFrequency);
+        }
+        
+        // Stop timer status polling
+        function stopTimerPolling() {
+            if (timerPollingInterval) {
+                clearInterval(timerPollingInterval);
+                timerPollingInterval = null;
+            }
+        }
+
         // Monitor timer changes for notifications
         document.addEventListener('livewire:init', () => {
             // Initialize client timer based on server state
             @if($timer && $timer->isRunning())
                 startClientTimer({{ $timer->remaining_seconds }});
             @endif
+            
+            // Start polling for timer status changes
+            startTimerPolling();
             
             Livewire.on('timer-finished', () => {
                 stopClientTimer();
@@ -205,11 +273,6 @@
                 stopClientTimer();
             @endif
         });
-        
-        // Request notification permission
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
         
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {

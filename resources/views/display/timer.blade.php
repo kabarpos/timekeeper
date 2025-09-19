@@ -26,21 +26,35 @@
             // Force reload triggered from admin
             location.reload();
         });
-        // Listen for force reload events via polling - dikurangi frekuensi
+        // Listen for force reload events via polling - optimized interval
         let lastForceReloadCheck = Date.now();
-        setInterval(function() {
+        let pollingInterval = 15000; // 15 seconds default
+        let consecutiveErrors = 0;
+        
+        function checkForceReload() {
             fetch('/api/force-reload-status')
                 .then(response => response.json())
                 .then(data => {
+                    consecutiveErrors = 0; // Reset error counter
+                    pollingInterval = 15000; // Reset to normal interval
+                    
                     if (data.timestamp > lastForceReloadCheck) {
                         lastForceReloadCheck = data.timestamp;
                         window.location.reload();
                     }
                 })
                 .catch(error => {
-                    // Error checking force reload status
+                    consecutiveErrors++;
+                    // Exponential backoff on errors, max 60 seconds
+                    pollingInterval = Math.min(60000, pollingInterval * 1.5);
                 });
-        }, 5000); // Dikurangi dari 3000ms ke 5000ms
+        }
+        
+        // Initial check
+        checkForceReload();
+        
+        // Set up adaptive polling
+        setInterval(checkForceReload, pollingInterval);
         
         // Fullscreen toggle dengan F11
         document.addEventListener('keydown', function(e) {

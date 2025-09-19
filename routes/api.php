@@ -31,7 +31,7 @@ Route::get('/current-display-mode', function () {
     ]);
 });
 
-Route::post('/force-reload-display', function () {
+Route::middleware(['web'])->post('/force-reload-display', function () {
     // Store timestamp in cache for polling mechanism
     Cache::put('force_reload_timestamp', time(), 60);
     
@@ -43,7 +43,7 @@ Route::post('/force-reload-display', function () {
         'message' => 'Display page reload triggered'
     ])->header('Access-Control-Allow-Origin', '*')
       ->header('Access-Control-Allow-Methods', 'POST')
-      ->header('Access-Control-Allow-Headers', 'Content-Type');
+      ->header('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-TOKEN');
 });
 
 // Get current timer status

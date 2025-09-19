@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HealthController;
 
 // Public routes - Display untuk pembicara
 Route::get('/', function () {
@@ -12,6 +13,14 @@ Route::get('/display', function () {
     return view('display.index');
 })->name('display');
 
+// Health check routes
+Route::prefix('health')->group(function () {
+    Route::get('/', [HealthController::class, 'check'])->name('health.check');
+    Route::get('/alive', [HealthController::class, 'alive'])->name('health.alive');
+    Route::get('/ready', [HealthController::class, 'ready'])->name('health.ready');
+    Route::get('/metrics', [HealthController::class, 'metrics'])->name('health.metrics');
+});
+
 Route::get('/timer', function () {
     return view('display.timer');
 })->name('display.timer');
@@ -19,6 +28,11 @@ Route::get('/timer', function () {
 Route::get('/message', function () {
     return view('display.message');
 })->name('display.message');
+
+// Test route untuk debugging CSS
+Route::get('/test-tailwind', function () {
+    return view('test-tailwind');
+})->name('test.tailwind');
 
 // Admin routes - Protected dengan auth middleware
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -31,6 +45,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', function () {
             return view('admin.index');
         })->name('index');
+        
+        Route::get('/monitoring', function () {
+            return view('admin.monitoring');
+        })->name('monitoring');
         
         Route::get('/timer', function () {
             return view('admin.timer');

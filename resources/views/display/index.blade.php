@@ -30,21 +30,37 @@
     @livewireScripts
     
     <script>
-        // Polling untuk memeriksa perubahan display mode setiap 10 detik (dikurangi frekuensi)
+        // Polling untuk memeriksa perubahan display mode - optimized interval
         let currentMode = '{{ $setting->display_mode }}';
-        setInterval(function() {
+        let displayModePollingInterval = 5000; // 5 seconds untuk responsivitas yang lebih baik
+        let displayModeErrors = 0;
+        
+        function checkDisplayMode() {
             fetch('/api/current-display-mode')
                 .then(response => response.json())
                 .then(data => {
+                    displayModeErrors = 0; // Reset error counter
                     if (data.mode !== currentMode) {
+                        console.log('Display mode changed from', currentMode, 'to', data.mode);
                         currentMode = data.mode;
                         updateDisplay(data.mode);
                     }
                 })
                 .catch(error => {
-                    // Error checking display mode
+                    displayModeErrors++;
+                    console.log('Display mode polling error:', error);
+                    // Reduce frequency on errors
+                    if (displayModeErrors > 3) {
+                        displayModePollingInterval = 15000; // 15 seconds on repeated errors
+                    }
                 });
-        }, 10000); // Dikurangi dari 5000ms ke 10000ms
+        }
+        
+        // Initial check
+        checkDisplayMode();
+        
+        // Set up polling
+        setInterval(checkDisplayMode, displayModePollingInterval);
         
         // Listen untuk display mode changes dan refresh halaman
         document.addEventListener('livewire:init', () => {
@@ -56,6 +72,35 @@
             });
         });
         
+        // Fungsi untuk update display berdasarkan mode
+        function updateDisplay(mode) {
+            console.log('Updating display to mode:', mode);
+            
+            // Hapus semua komponen yang ada
+            const timerDisplay = document.getElementById('timer-display');
+            const messageDisplay = document.getElementById('message-display');
+            
+            if (mode === 'timer') {
+                // Tampilkan timer, sembunyikan message
+                if (timerDisplay) timerDisplay.style.display = 'block';
+                if (messageDisplay) messageDisplay.style.display = 'none';
+                
+                // Reload halaman untuk memuat komponen timer yang fresh
+                setTimeout(() => {
+                    window.location.href = '/display/timer';
+                }, 100);
+            } else if (mode === 'message') {
+                // Tampilkan message, sembunyikan timer
+                if (messageDisplay) messageDisplay.style.display = 'block';
+                if (timerDisplay) timerDisplay.style.display = 'none';
+                
+                // Reload halaman untuk memuat komponen message yang fresh
+                setTimeout(() => {
+                    window.location.href = '/display/message';
+                }, 100);
+            }
+        }
+        
         // Listen untuk global custom event dari admin
         window.addEventListener('display-mode-changed', (event) => {
             // Display mode changed event
@@ -63,21 +108,35 @@
             updateDisplay(currentMode);
         });
         
-        // Listen for force reload events via polling - dikurangi frekuensi
+        // Listen for force reload events via polling - optimized interval
         let lastForceReloadCheck = Date.now();
-        setInterval(function() {
+        let pollingInterval = 15000; // 15 seconds default
+        let consecutiveErrors = 0;
+        
+        function checkForceReload() {
             fetch('/api/force-reload-status')
                 .then(response => response.json())
                 .then(data => {
+                    consecutiveErrors = 0; // Reset error counter
+                    pollingInterval = 15000; // Reset to normal interval
+                    
                     if (data.timestamp > lastForceReloadCheck) {
                         lastForceReloadCheck = data.timestamp;
                         window.location.reload();
                     }
                 })
                 .catch(error => {
-                    // Error checking force reload status
+                    consecutiveErrors++;
+                    // Exponential backoff on errors, max 60 seconds
+                    pollingInterval = Math.min(60000, pollingInterval * 1.5);
                 });
-        }, 5000); // Dikurangi dari 3000ms ke 5000ms
+        }
+        
+        // Initial check
+        checkForceReload();
+        
+        // Set up adaptive polling
+        setInterval(checkForceReload, pollingInterval);
         
         // Fullscreen toggle dengan F11
         document.addEventListener('keydown', function(e) {

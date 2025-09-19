@@ -2,7 +2,7 @@
     class="min-h-screen flex items-center justify-center font-manrope"
     style="background-color: {{ $background_color }}; color: {{ $font_color }};"
     @if($message && $message->is_active) 
-        wire:poll.10s="refreshDisplay"
+        wire:poll.30s="refreshDisplay"
     @endif
 >
     @if($message && $message->is_active)
