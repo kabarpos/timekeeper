@@ -8,57 +8,6 @@
         </div>
         
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Header Section -->
-            <div class="mb-12">
-                <div class="text-center mb-8">
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4">
-                        TimeKeeper Dashboard
-                    </h1>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Kelola presentasi Anda dengan kontrol timer yang presisi dan sistem pesan yang fleksibel
-                    </p>
-                </div>
-                
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600 mb-1">Status Timer</p>
-                                <p class="text-2xl font-bold text-gray-900">Aktif</p>
-                            </div>
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-play text-white text-lg"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600 mb-1">Mode Display</p>
-                                <p class="text-2xl font-bold text-gray-900">Timer</p>
-                            </div>
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-desktop text-white text-lg"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-600 mb-1">Pesan Aktif</p>
-                                <p class="text-2xl font-bold text-gray-900">3</p>
-                            </div>
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-violet-500 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-comments text-white text-lg"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Quick Actions -->
             <div class="mb-12">
                 <div class="flex items-center justify-between mb-6">
@@ -149,38 +98,21 @@
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
                 <!-- Display Mode Settings -->
                 <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div class="p-8">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center">
-                                <i class="fas fa-cog text-white text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-900">Display Mode</h3>
-                                <p class="text-gray-600">Konfigurasi pengaturan tampilan</p>
-                            </div>
-                        </div>
+                   
+        
                         <div class="bg-gray-50/50 rounded-xl p-6">
                             @livewire('admin.settings-form')
                         </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Timer Control -->
                 <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div class="p-8">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center">
-                                <i class="fas fa-clock text-white text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-900">Timer Control</h3>
-                                <p class="text-gray-600">Kelola timer presentasi</p>
-                            </div>
-                        </div>
+               
                         <div class="bg-gray-50/50 rounded-xl p-6">
                             @livewire('admin.timer-control')
                         </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>
