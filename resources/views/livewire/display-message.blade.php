@@ -9,12 +9,12 @@
         <div class="text-center max-w-6xl mx-auto px-8">
             {{-- Judul dengan ukuran responsif yang lebih besar untuk desktop XL+ --}}
             <h1 class="font-bold mb-8 animate-pulse leading-tight
-                text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">
+                text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                 {{ $message->title }}
             </h1>
             
             {{-- Konten pesan dengan ukuran optimal untuk semua layar --}}
-            <div class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 
+            <div class="text-lg sm:text-xl md:text-3xl lg:text-5xl xl:text-6xl
                 leading-relaxed mb-8 max-w-5xl mx-auto">
                 {!! nl2br(e($message->content)) !!}
             </div>
