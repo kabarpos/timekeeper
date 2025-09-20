@@ -109,7 +109,7 @@ class SecurityHeaders
                 "style-src 'self' 'unsafe-inline' http://localhost:* http://127.0.0.1:* http://[::1]:* https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.bunny.net",
                 "font-src 'self' https://fonts.gstatic.com https://fonts.bunny.net data:",
                 "img-src 'self' data: https: blob:",
-                "connect-src 'self' ws: wss: http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:*",
+                "connect-src 'self' ws: wss: http://localhost:* http://127.0.0.1:* http://[::1]:* https://localhost:* https://127.0.0.1:* https://[::1]:* https://fonts.bunny.net",
                 "frame-ancestors 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",
