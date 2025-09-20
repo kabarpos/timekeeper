@@ -91,16 +91,16 @@ class SecurityHeaders
         $policies = [
             "default-src 'self'",
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-            "style-src 'self' 'unsafe-inline'",
-            "font-src 'self' data:",
+            "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
+            "font-src 'self' https://fonts.bunny.net data:",
             "img-src 'self' data: https: blob:",
-            "connect-src 'self'",
+            "connect-src 'self' ws: wss: https://fonts.bunny.net",
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
             "object-src 'none'"
         ];
-        
+
         // Kebijakan khusus untuk development
         if (config('app.debug')) {
             $policies = [
@@ -116,7 +116,7 @@ class SecurityHeaders
                 "object-src 'none'"
             ];
         }
-        
+
         return implode('; ', $policies);
     }
 }

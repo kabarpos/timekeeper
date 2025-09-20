@@ -59,26 +59,42 @@ class PerformanceOptimizer {
         }
     }
 
-    // Preload critical resources
+    // Preload critical resources (SAFE, menghormati Vite @vite)
     setupPreloadCriticalResources() {
-        const criticalResources = [
-            { href: '/css/app.css', as: 'style' },
-            { href: '/js/app.js', as: 'script' },
-        ];
-
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.href = resource.href;
-            link.as = resource.as;
-            if (resource.as === 'style') {
-                link.onload = function() {
-                    this.onload = null;
-                    this.rel = 'stylesheet';
-                };
+        try {
+            // Jika Vite sudah menyuntikkan assets (production hashed files), jangan lakukan apa-apa
+            const viteCss = document.querySelector('link[rel="stylesheet"][href*="/assets/"][href$=".css"]');
+            const viteJs = document.querySelector('script[type="module"][src*="/assets/"][src$=".js"]');
+            if (viteCss || viteJs) {
+                // Hindari duplikasi preload/stylesheet/script dan potensi warning
+                return;
             }
-            document.head.appendChild(link);
-        });
+
+            // Fallback hanya untuk DEV: gunakan path dari tag yang memang sudah ada
+            const devCssTag = document.querySelector('link[rel="stylesheet"][href*="/resources/css/app.css"]');
+            const devJsTag = document.querySelector('script[type="module"][src*="/resources/js/app.js"]');
+
+            const criticalResources = [];
+            if (devCssTag) criticalResources.push({ href: devCssTag.href, as: 'style' });
+            if (devJsTag) criticalResources.push({ href: devJsTag.src, as: 'script' });
+
+            // Jika tidak ada tag referensi yang valid, jangan melakukan preload hardcoded
+            if (criticalResources.length === 0) return;
+
+            criticalResources.forEach(resource => {
+                // Skip jika sudah ada preload untuk resource yang sama
+                if (document.querySelector(`link[rel="preload"][href="${resource.href}"]`)) return;
+
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.href = resource.href;
+                link.as = resource.as;
+                // Tidak mengubah menjadi stylesheet/script untuk mencegah duplikasi
+                document.head.appendChild(link);
+            });
+        } catch (e) {
+            console.debug('setupPreloadCriticalResources skipped:', e);
+        }
     }
 
     // Service Worker untuk caching
