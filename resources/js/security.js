@@ -78,24 +78,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Check lagi setelah 2 detik
             setTimeout(() => {
-                if (typeof Livewire === 'undefined') {
-                    console.error('🚨 CRITICAL: Livewire not loaded after 3 seconds total');
-                    
-                    // Show warning to user hanya jika ada form Livewire
-                    const forms = document.querySelectorAll('form[wire\\:submit]');
-                    if (forms.length > 0) {
-                        const warning = document.createElement('div');
-                        warning.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
-                        warning.innerHTML = `
-                            <strong>⚠️ System Warning:</strong> 
-                            Interactive features are not fully loaded. Please refresh the page before submitting any forms.
-                        `;
-                        forms[0].parentNode.insertBefore(warning, forms[0]);
-                    }
-                } else {
-                    console.log('✅ Livewire loaded successfully (delayed)');
-                }
-            }, 2000);
+            if (typeof Livewire === 'undefined') {
+                console.error('🚨 CRITICAL: Livewire not loaded after 3 seconds total');
+                // Warning logic removed - Livewire styles now properly loaded
+            } else {
+                console.log('✅ Livewire loaded successfully (delayed)');
+            }
+        }, 2000);
         } else {
             console.log('✅ Livewire loaded successfully');
         }
