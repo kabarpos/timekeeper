@@ -95,24 +95,45 @@
             </div>
 
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <!-- Display Mode Settings -->
-                <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                   
-        
-                        <div class="bg-gray-50/50 rounded-xl p-6">
-                            @livewire('admin.settings-form')
+            <div class="space-y-8">
+                <!-- Primary Operations - Message & Timer Control -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Active Message Widget -->
+                    <div class="w-full">
+                        @livewire('admin.active-message-widget')
+                    </div>
+
+                    <!-- Timer Control -->
+                    <div class="w-full">
+                        <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="p-6">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
+                                        <i class="fas fa-stopwatch text-white text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-900">Timer Control</h3>
+                                        <p class="text-sm text-gray-600">Kontrol waktu presentasi</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50/50 rounded-xl p-6">
+                                    @livewire('admin.timer-control')
+                                </div>
+                            </div>
                         </div>
-                    
+                    </div>
                 </div>
 
-                <!-- Timer Control -->
-                <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-               
-                        <div class="bg-gray-50/50 rounded-xl p-6">
-                            @livewire('admin.timer-control')
+                <!-- System Configuration - Display Settings -->
+                <div class="w-full">
+                    <div class="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="p-6">
+                            
+                            <div class="bg-gray-50/50 rounded-xl p-6">
+                                @livewire('admin.settings-form')
+                            </div>
                         </div>
-                   
+                    </div>
                 </div>
             </div>
         </div>

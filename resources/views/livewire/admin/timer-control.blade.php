@@ -1,14 +1,5 @@
 <div class="space-y-8">
-    <!-- Timer Control Header -->
-    <div class="flex items-center gap-3 mb-6">
-        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
-            <i class="fas fa-stopwatch text-white"></i>
-        </div>
-        <div>
-            <h3 class="text-xl font-bold text-gray-900">Timer Control</h3>
-            <p class="text-sm text-gray-600">Kelola dan kontrol timer sistem</p>
-        </div>
-    </div>
+   
 
     <!-- Timer Display Card -->
     <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">

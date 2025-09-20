@@ -7,7 +7,7 @@
 
          <!-- Additional Info -->
         @if($timer && $timer->status !== 'stopped')
-            <div class="text-5xl font-manrope uppercase">
+            <div class="text-3xl font-manrope uppercase">
                 @if($timer->isRunning())
                     Sisa Waktu
                 @elseif($timer->isPaused())
@@ -27,7 +27,7 @@
             <!-- Warning Indicator -->
             @if($is_warning)
                 <div class="animate-bounce">
-                    <div class="text-5xl font-manrope font-bold text-red-500 bg-red-100 bg-opacity-90 text-red-800 rounded-lg px-6 py-3 inline-block shadow-lg border-2 border-red-400">
+                    <div class="text-3xl font-manrope font-bold text-red-500 bg-red-100 bg-opacity-90 text-red-800 rounded-lg px-6 py-3 inline-block shadow-lg border-2 border-red-400">
                         ⚠️ WAKTU HAMPIR HABIS!
                     </div>
                 </div>
@@ -38,7 +38,7 @@
         
         <!-- Progress Bar (Optional) -->
         @if($timer && $timer->duration_seconds > 0)
-            <div class="mt-8 w-full max-w-2xl mx-auto">
+            <div class="mt-2 w-full max-w-2xl mx-auto">
                 <div class="bg-white bg-opacity-20 rounded-full h-3">
                     @php
                         $progress = $timer->duration_seconds > 0 
@@ -52,21 +52,14 @@
                         style="width: {{ $progress }}%">
                     </div>
                 </div>
-                <div class="text-sm font-manrope opacity-60 mt-2">
+                <div class="text-sm font-manrope opacity-60 mt-0">
                     {{ number_format($progress, 1) }}% selesai
                 </div>
             </div>
         @endif
     </div>
     
-    <!-- Keyboard Shortcuts Info (Hidden by default, can be toggled) -->
-    <div class="fixed bottom-4 right-4 text-sm font-manrope opacity-40 hover:opacity-80 transition-opacity">
-        <div class="bg-black bg-opacity-50 rounded-lg p-3">
-            <div class="text-xs font-manrope">
-                Tekan F11 untuk fullscreen
-            </div>
-        </div>
-    </div>
+    
     
     <!-- Interactive features script -->
     <script>
