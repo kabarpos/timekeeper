@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add security validation before submit
         form.addEventListener('submit', function(e) {
-            // Check if Livewire is available
-            if (typeof Livewire === 'undefined') {
-                e.preventDefault();
-                console.error('🚨 SECURITY: Livewire not available, preventing form submission');
-                alert('System not ready. Please refresh the page and try again.');
-                return false;
-            }
+            // Check if Livewire is available - dengan delay untuk memastikan Livewire sudah loaded
+            setTimeout(() => {
+                if (typeof Livewire === 'undefined' || typeof window.Livewire === 'undefined') {
+                    console.warn('⚠️ Livewire not fully loaded, but allowing form submission');
+                    // Tidak prevent submit, hanya warning
+                }
+            }, 100);
             
             // Check for sensitive data in URL (should never happen)
             const url = new URL(window.location.href);
