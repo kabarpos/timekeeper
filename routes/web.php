@@ -117,4 +117,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Production Test Route (untuk debugging)
+Route::get('/test-production', function () {
+    return view('test-production');
+})->name('test.production');
+
 require __DIR__.'/auth.php';

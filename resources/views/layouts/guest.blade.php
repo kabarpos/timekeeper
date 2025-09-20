@@ -28,6 +28,5 @@
         </div>
         
         @livewireScripts
-        @vite(['resources/js/security.js'])
     </body>
 </html>

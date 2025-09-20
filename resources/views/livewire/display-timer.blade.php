@@ -3,11 +3,11 @@
     style="background-color: {{ $background_color }}; color: {{ $font_color }};"
     @if($timer && $timer->isRunning()) wire:poll.1000ms="updateTimeDisplay" @endif>
     
-    <div class="text-center w-full max-w-4xl">
+    <div class="text-center w-full">
 
          <!-- Additional Info -->
         @if($timer && $timer->status !== 'stopped')
-            <div class="text-3xl font-manrope uppercase">
+            <div class="text-7xl font-manrope uppercase">
                 @if($timer->isRunning())
                     Sisa Waktu
                 @elseif($timer->isPaused())
@@ -18,7 +18,7 @@
 
         <!-- Timer Display -->
         <div class="mb-8">
-            <div class="text-8xl lg:text-[28rem] font-manrope font-bold leading-none mb-4 transition-all duration-300 {{ $is_warning ? 'animate-pulse text-red-400' : '' }}">
+            <div class="text-8xl lg:text-[36rem] font-manrope font-bold leading-none mb-4 transition-all duration-300 {{ $is_warning ? 'animate-pulse text-red-400' : '' }}">
                 {{ $formatted_time }}
             </div>
             
